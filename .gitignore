@@ -404,4 +404,5 @@ model/*.onnx
 model/*.msgpack
 model/*.ckpt
 model/*.bin
+model/**/*.*
 # End of https://www.toptal.com/developers/gitignore/api/python,django,visualstudiocode,pycharm

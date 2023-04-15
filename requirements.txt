@@ -1,8 +1,7 @@
-git+https://github.com/SKT-AI/KoBART#egg=kobart
 boto3
 pandas
-pytorch-lightning == 1.2.1
-torch
-transformers == 4.3.3
+pytorch-lightning
+torch 
+transformers
 beautifulsoup4==4.12.2
 Django==3.2.18
