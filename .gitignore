@@ -398,6 +398,7 @@ pyrightconfig.json
 data/*.csv
 data/*.json
 data/*.tbv
+data/*.parquet
 ### Model 파일 업로드 금지
 model/*.h5
 model/*.onnx
