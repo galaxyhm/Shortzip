@@ -399,6 +399,7 @@ data/*.csv
 data/*.json
 data/*.tbv
 data/*.parquet
+data/SKTBrain KoBERT (HuggingFace Transformers + TPU).ipynb
 ### Model 파일 업로드 금지
 model/*.h5
 model/*.onnx
