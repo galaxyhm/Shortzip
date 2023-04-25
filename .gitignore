@@ -408,3 +408,5 @@ model/*.ckpt
 model/*.bin
 model/**/*.*
 # End of https://www.toptal.com/developers/gitignore/api/python,django,visualstudiocode,pycharm
+fastapi/.idea/*.*
+**/.idea/**

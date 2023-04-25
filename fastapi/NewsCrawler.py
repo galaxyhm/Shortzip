@@ -69,8 +69,13 @@ class NewsCrawler:
         text = text.replace(u'\\\'', u' ')
         text = text.replace(u'[', u'')
         text = text.replace(u']', u'')
-        text = text.replace(u'  ', u' ')
         text = text.replace(u'\xa0', u' ')
+        text = text.replace(u'\"', u'')
+        text = text.replace(u'\'', u'')
+        text = text.replace(u'  ', u' ')
+        text = text.replace(u'  ', u' ')
+        text = text.replace(u'  ', u' ')
+
 
         return text.strip()
 
