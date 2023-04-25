@@ -1,0 +1,20 @@
+# Test your FastAPI endpoints
+
+GET http://127.0.0.1:8000/
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/hello/User
+Accept: application/json
+
+###
+
+# 네이버크롤링후 요약 테스트 문 
+POST http://localhost:8000/crawl/naver/
+Content-Type: application/json
+
+{
+  "url" : "https://n.news.naver.com/article/437/0000340606"
+
+}
