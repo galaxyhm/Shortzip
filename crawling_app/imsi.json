@@ -1,0 +1,21 @@
+{
+
+	"WEB": {
+
+		"IP": "localhost",
+
+		"PORT": "2015"
+
+	},
+
+	"DB": {
+
+		"IP": "localhost",
+
+		"PORT": "2014",
+        "ID" : "test",
+        "PASSWORD" : "test"
+
+	}
+
+}
