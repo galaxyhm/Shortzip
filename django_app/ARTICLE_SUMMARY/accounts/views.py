@@ -22,10 +22,15 @@ def signup(request):
     
     if request.method == 'POST':
         form = UserForm(request.POST)
+        print('POST 메소드 확인 및 form 생성')
         if form.is_valid():
             user = form.save()
+            print('signup 유효성 검사 통과 및 form 저장')
             auth_login(request, user)
+            print('signup 모든 과정 완료')
             return redirect('board:index')
+        else:
+            print('signup 유효성 검사 오류')
     else:
         form = UserForm()
     context = {'form':form}
@@ -34,6 +39,7 @@ def signup(request):
 
 @require_http_methods(['GET', 'POST'])
 def login(request):
+    print('시작')
     if request.user.is_authenticated:
         return HttpResponseBadRequest('이미 로그인 하였습니다.')
 
@@ -46,6 +52,8 @@ def login(request):
             user = form.get_user()
             auth_login(request, user)
             return redirect('board:index')
+        else:
+            print('form 유효성 검사 막힘')
     else:
         form = AuthenticationForm()
     context = {'form' : form}
