@@ -1,7 +1,0 @@
-{
-    "DB_NAME": "db_name",
-    "USER": "user",
-    "PASSWORD": "dbdb",
-    "HOST": "localhost",
-    "PORT": 3306
-  }
