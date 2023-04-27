@@ -64,8 +64,13 @@
                         <a href="#testimonial" class="nav-item nav-link">Testimonial</a>
                         <a href="#contact" class="nav-item nav-link">Contact</a>
                     </div>
+                    {% if request.user.is_authenticated == False %}
                     <a href="{% url 'accounts:login' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">로그인</a>
                     <a href="{% url 'accounts:signup' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">회원가입</a>
+                    {% else %}
+                    <a href="{% url 'accounts:logout' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">로그아웃</a> 
+                    <a href="{% url 'accounts:signup' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">회원가입</a>
+                    {% endif %}
                 </div>
             </nav>
 

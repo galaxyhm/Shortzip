@@ -4,22 +4,20 @@ from django.http import HttpResponseBadRequest
 from django.views.decorators.http import (
     require_http_methods,
     require_safe,
-    require_POST
+    require_POST,
 )
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth import get_user_model
 from django.contrib import auth
 from .forms import UserCreationForm
+
 User = get_user_model()
 
 
 # Create your views here.
 @require_http_methods(['GET', 'POST'])
 def signup(request):
-    if request.user.is_authenticated:
-        return HttpResponseBadRequest('이미 로그인 하였습니다.')
-
     if request.method == 'POST':
         print('회원 가입요청중')
         form = UserCreationForm(request.POST)
@@ -54,4 +52,9 @@ def login(request):
     context = {'form': form}
     print('form context 생성 및 전송 직전')
     return render(request, 'accounts/login.html', context)
+
+
+def logout(request):
+    auth_logout(request)
+    return redirect('board:index')
 
