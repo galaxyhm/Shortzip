@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('board/', include('board.urls')),
     path('', lambda request : redirect('board/', permanent=False)), # permanent = True로 설정하면 영구적 인 리디렉션이 발행됩니다.
+    path('accounts/', include('accounts.urls')),
 ]

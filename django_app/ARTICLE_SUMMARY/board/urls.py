@@ -5,4 +5,5 @@ app_name = 'board'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    # path('summarize/', views.summarize, name='summarize'),
 ]
