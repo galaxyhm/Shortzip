@@ -1,6 +1,7 @@
 # accounts/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseBadRequest
+from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.http import (
                                     require_http_methods, 
                                     require_safe, 
@@ -21,13 +22,16 @@ def signup(request):
         return HttpResponseBadRequest('이미 로그인 하였습니다.')
     
     if request.method == 'POST':
-        form = UserForm(request.POST)
+        print('회원 가입요청중')
+        form = UserCreationForm(request.POST)
         if form.is_valid():
+            print('폼요청 성공')
             user = form.save()
             auth_login(request, user)
             return redirect('board:index')
     else:
-        form = UserForm()
+        print('폼 요청 실패')
+        form = UserCreationForm()
     context = {'form':form}
     return render(request, 'accounts/signup.html', context)
 
