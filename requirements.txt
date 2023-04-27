@@ -5,3 +5,4 @@ torch
 transformers
 beautifulsoup4==4.12.2
 Django==3.2.18
+mysqlclient
