@@ -114,13 +114,49 @@
 {#				<button type="submit" class="btn btn-primary btn-lg">로그인</button>#}
 {#			</div>  #}
 {#		</div>#}
-    <form method="post" action="">
+
+	<form method="post" action="" class="form-horizontal">	
+		<div class="row">
+			<div class="col-8 offset-4">
+				<h2>로그인</h2>
+			</div>	
+		</div>	
+		<input type="hidden" name="csrfmiddlewaretoken" value="AEfw5WxwoN77Yqvcv63gqPIegEuW7CyqnCNgyspxby9VR1tcGyQruCVU9xgMMAzS">
+		
+		<div class="form-group row">
+			<label for="id_username">이메일 주소:</label> 
+			<div class="col-8">
+				<input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="255" required="" id="id_username" class="form-control">
+
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="id_password">비밀번호:</label> 
+			<div class="col-8">
+				<input type="password" name="password" autocomplete="current-password" required="" id="id_password" class="form-control">
+			</div>
+		</div>
+
+		<input type="submit" value="로그인" style="display:block; background: #4AC4F3; margin:auto;" class="btn btn-primary btn-lg">
+
+	</form>
+	<div class="text-center">아직 회원이 아니신가요? <a href="/accounts/signup/">회원 가입</a></div>
+
+<!--
+<body style="height: 1000px; margin:100px 0px">
+	<form method="post" action="" class="form-horizontal">	
+		<div class="row">
+			<div class="col-8 offset-4">
+				<h2>로그인</h2>
+			</div>	
+		</div>	
 		{% csrf_token %}
 		{{ form.as_p }}
-		<input type="submit" value="로그인" />
+		<input type="submit" value="로그인" style="display:block; background: #4AC4F3; margin:auto;" class="btn btn-primary btn-lg"/>
 	</form>
 	<div class="text-center">아직 회원이 아니신가요? <a href="{% url 'accounts:signup' %}">회원 가입</a></div>
-
+</body>
+-->
 </div>
 </body>
 </html>
