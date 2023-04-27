@@ -89,7 +89,7 @@ body {
 </head>
 <body>
 <div class="signup-form">
-    <form action="" method="post" class="form-horizontal">
+    <!-- <form action="" method="post" class="form-horizontal">
       	<div class="row">
         	<div class="col-8 offset-4">
 				<h2>회원 가입</h2>
@@ -126,7 +126,13 @@ body {
 					<button type="submit" class="btn btn-primary btn-lg">가입하기</button>
 			</div>  
 		</div>		      
-    </form>
+    </form> -->
+	<form method="post" action="">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="회원가입" />
+	</form>
+	
 	<div class="text-center">이미 회원이신가요? <a href="{% url 'accounts:login' %}">로그인 하기</a></div>
 </div>
 </body>

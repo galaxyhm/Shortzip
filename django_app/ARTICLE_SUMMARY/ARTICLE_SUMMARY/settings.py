@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'ARTICLE_SUMMARY.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-with open(BASE_DIR/'db_connect.json') as db_connect :
+with open(BASE_DIR / "db_connect.json") as db_connect :
     db_data = json.load(db_connect)
 
 DATABASES = {
