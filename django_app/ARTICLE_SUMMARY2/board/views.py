@@ -5,6 +5,9 @@ from django.views.decorators.http import (require_http_methods,
 
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
+from django.http import JsonResponse
+import json
+from .newsCrawler import NewsCrawler
 
 # Create your views here.
 
@@ -32,6 +35,23 @@ def index(request):
 # def summarize(request):
 #     return render()
 
+
+
+@require_http_methods(['POST'])
+def text_summarizae_request_ajax(request):
+
+    data = json.loads(request.body)
+    context = {
+        'result' : 'error '
+    }
+    if data['url'] :
+        return JsonResponse(context)
+     
+    
+
+    
+
+    return JsonResponse(context)
 
 
 

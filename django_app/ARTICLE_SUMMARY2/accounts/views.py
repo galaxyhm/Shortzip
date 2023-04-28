@@ -19,15 +19,12 @@ User = get_user_model()
 @require_http_methods(['GET', 'POST'])
 def signup(request):
     if request.method == 'POST':
-        print('회원 가입요청중')
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            print('폼요청 성공')
             user = form.save()
             auth_login(request, user)
             return redirect('board:index')
     else:
-        print('폼 요청 실패')
         form = UserCreationForm()
     context = {'form': form}
     return render(request, 'accounts/signup.html', context)
