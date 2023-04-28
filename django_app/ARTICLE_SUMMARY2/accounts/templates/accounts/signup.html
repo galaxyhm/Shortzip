@@ -163,7 +163,7 @@ body {
 				<input type="password" name="password2" required="" id="id_password2" class="form-control">
 			</div>
 		</div>
-
+		{% csrf_token %}
 		<input type="submit" value="회원가입" style="display:block; background: #4AC4F3; margin:auto;" class="btn btn-primary btn-lg">
 	</form>
 	<div class="text-center">이미 회원이신가요? <a href="/accounts/login/">로그인 하기</a></div>
