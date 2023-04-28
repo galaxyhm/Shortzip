@@ -127,13 +127,61 @@ body {
 {#			</div>  #}
 {#		</div>		      #}
 {#    </form> -->#}
+
 	<form method="post" action="">
+		<div class="row">
+			<div class="col-8 offset-4">
+				<h2>회원가입</h2>
+			</div>	
+		</div>
+		<input type="hidden" name="csrfmiddlewaretoken" value="GdY1grrN8NxA7qrK41BvDP2kmoOc9gZtQRneHupQw603srFhHdkPAwnSqbbEnJSg">
+
+		<div class="form-group row">
+			<label for="id_email">이메일 주소:</label> 
+			<div class="col-8">
+				<input type="email" name="email" maxlength="255" required="" id="id_email" class="form-control">
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="id_date_of_birth">생년월일:</label> 
+			<div class="col-8">
+				<input type="date" name="date_of_birth" required="" id="id_date_of_birth" class="form-control">
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="id_password1">비밀번호:</label> 
+			<div class="col-8">
+				<input type="password" name="password1" required="" id="id_password1" class="form-control">
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="id_password2">비밀번호 확인:</label> 
+			<div class="col-8">
+				<input type="password" name="password2" required="" id="id_password2" class="form-control">
+			</div>
+		</div>
+
+		<input type="submit" value="회원가입" style="display:block; background: #4AC4F3; margin:auto;" class="btn btn-primary btn-lg">
+	</form>
+	<div class="text-center">이미 회원이신가요? <a href="/accounts/login/">로그인 하기</a></div>
+<!--
+<body style="height: 1000px; margin:100px 0px">
+	<form method="post" action="">
+		<div class="row">
+			<div class="col-8 offset-4">
+				<h2>회원가입</h2>
+			</div>	
+		</div>
 		{% csrf_token %}
 		{{ form.as_p }}
-		<input type="submit" value="회원가입" />
+		<input type="submit" value="회원가입" style="display:block; background: #4AC4F3; margin:auto;" class="btn btn-primary btn-lg"/>
 	</form>
-	
-	<div class="text-center">이미 회원이신가요? <a href="{% url 'accounts:login' %}">로그인 하기</a></div>
+	<div class="text-center" >이미 회원이신가요? <a href="{% url 'accounts:login' %}" >로그인 하기</a></div>
+</body>
+-->
 </div>
 </body>
 </html>
