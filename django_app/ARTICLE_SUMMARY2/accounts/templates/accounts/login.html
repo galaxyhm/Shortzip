@@ -136,7 +136,7 @@
 				<input type="password" name="password" autocomplete="current-password" required="" id="id_password" class="form-control">
 			</div>
 		</div>
-
+		{% csrf_token %}
 		<input type="submit" value="로그인" style="display:block; background: #4AC4F3; margin:auto;" class="btn btn-primary btn-lg">
 
 	</form>
