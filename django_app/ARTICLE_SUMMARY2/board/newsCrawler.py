@@ -107,8 +107,9 @@ class NewsCrawler:
         :return: datetime_string tuple
         """
 
-        article_date_regex = r'입력(?P<in>[0-9]+\.[0-9]+\.[0-9]+\.\s[오전|오후]+\s[0-9]:[0-9]+)\n+수정(?P<modify>[0-9]+\.[0-9]+\.[0-9]+\.\s[오전|오후]+\s[0-9]:[0-9]+)'
-        only_article_date_regex = r'입력(?P<in>[0-9]+\.[0-9]+\.[0-9]+\.\s[오전|오후]+\s[0-9]:[0-9]+)'
+        article_date_regex = r'입력(?P<in>[0-9]+\.[0-9]+\.[0-9]+\.\s[오전|오후]+\s[0-9]+:[0-9]+)\n+수정(?P<modify>[0-9]+\.[0-9]+\.[0-9]+\.\s[오전|오후]+\s[0-9]+:[0-9]+)'
+        only_article_date_regex = r'입력(?P<in>[0-9]+\.[0-9]+\.[0-9]+\.\s[오전|오후]+\s[0-9]+:[0-9]+)'
+        # print(str)
         if string.find('수정') != -1:
             regex = re.compile(article_date_regex)
         else:
@@ -130,7 +131,7 @@ class NewsCrawler:
 
 
 def main():
-    url = 'https://n.news.naver.com/article/022/0003805533'
+    url = 'https://n.news.naver.com/article/007/0000007356'
     k = NewsCrawler.navercrawl(url)
     print(k)
 

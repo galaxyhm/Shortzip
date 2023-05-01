@@ -53,6 +53,10 @@ def news_summarizae_request_ajax(request):
 
     crawl_data_dict = NewsCrawler.navercrawl(url)
     news_article = models.NewsArticleInfo()
+    request_body = {
+        "text" : crawl_data_dict['text']
+
+    }
     # DB에 해당 URL로 있는것을 조회 
     if models.NewsArticleInfo.objects.filter(url=url) :
         if models.NewsArticleInfo.objects.filter(Q(url=url) & Q(modify_date__isnull=True)) or  models.NewsArticleInfo.objects.filter(Q(url=url) & Q(modify_date = crawl_data_dict.get('modify_date'))):
@@ -62,6 +66,11 @@ def news_summarizae_request_ajax(request):
             news_article = models.NewsArticleInfo.objects.get(url=url)
             news_article.detail = crawl_data_dict['text']
             news_article.modify_date = crawl_data_dict['modify_date']
+            request_body = {
+                "text" : crawl_data_dict['text']
+
+            }
+            request_body = json.dumps(request_body)
             r = requests.post('http://localhost:10000/summarize/text/', data=request_body)
             if r.status_code != 200 :
                 pass
@@ -83,12 +92,6 @@ def news_summarizae_request_ajax(request):
         news_article.modify_date = crawl_data_dict['modify_date']
     else :
         pass
-
-    request_body = {
-        "text" : crawl_data_dict['text']
-
-    }
-
     request_body = json.dumps(request_body)
     r = requests.post('http://localhost:10000/summarize/text/', data=request_body)
     if r.status_code != 200 :
@@ -114,7 +117,7 @@ def text_summarizae_request_ajax(request):
     jsonData = json.dumps(cond)
     r = requests.post('http://localhost:10000/crawl/naver/', data=jsonData)
     print(r.status_code)
-    print(r.json())
+    # print(r.json())
     # data = json.loads(m.body)
     context = {
         'result' : 'error '
