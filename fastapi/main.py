@@ -1,53 +1,65 @@
 from fastapi import FastAPI
-from NewsCrawler import NewsCrawler
 from pydantic import BaseModel
-import transformers
 from transformers import pipeline
 
 app = FastAPI()
 
+def textProcessing( text: str) -> str:
+    text = text.replace(u'\n', u' ')
+    text = text.replace(u'\'', u' ')
+    text = text.replace(u'\\\'', u' ')
+    text = text.replace(u'[', u'')
+    text = text.replace(u']', u'')
+    text = text.replace(u'\xa0', u' ')
+    text = text.replace(u'\"', u'')
+    text = text.replace(u'\'', u'')
+    text = text.replace(u'  ', u' ')
+    text = text.replace(u'  ', u' ')
+    text = text.replace(u'  ', u' ')
+
+    return text.strip()
+
 class UrlItem(BaseModel):
-    url : str
+    url: str
 
 
 class TextItem(BaseModel):
-    text :str
+    text: str
 
 
-#fast api 시작후 모델 로드및 초기화 (현재 임시로 모델딴거 로드중)
+# fast api 시작후 모델 로드및 초기화
 class ModelLoad:
     summarizer = None
 
     def __init__(self):
-        self.summarizer = pipeline("summarization", model="gogamza/kobart-summarization", min_length=32, max_length=1024, tokenizer='gogamza/kobart-summarization')
+        self.summarizer = pipeline("summarization", model="galaxyhm/kobartv2-summarizer-using_data",
+                                   tokenizer='galaxyhm/kobartv2-summarizer-using_data')
 
 
 model = ModelLoad()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
-
-
 # 크롤링후 테스트요약
-@app.post("/crawl/naver/")
-async def crawl(url : UrlItem):
-    a, b = NewsCrawler.navercrawl(url.url)
+# @app.post("/crawl/naver/")
+# async def crawl(url: UrlItem):
 
-    text = model.summarizer(b, min_length=32, max_length=len(b)/2)
-    print(type(text))
-    print(text[0])
-    text[0]['summary_text'] = NewsCrawler.textProcessing(text[0]['summary_text'])
-    text.append({'text': b})
-    return {'message': text}
+#     list_list = NewsCrawler.navercrawl(url.url)
+#     if len(list_list) == 7:
+#         a, b, c, d, e, f, g = list_list
+#     else:
+#         a,b,c,d,e,f = list_list
+
+
+#     text = model.summarizer(d, min_length=32, max_length=len(d) / 2)
+#     # print(type(text))
+#     # print(text[0])
+#     text[0]['summary_text'] = NewsCrawler.textProcessing(text[0]['summary_text'])
+#     text.append({'text': d})
+#     return {'message': text}
 
 
 @app.post("/summarize/text")
-async def summarize_text(text : TextItem):
-    pass
+async def summarize_text(text: TextItem):
+    after_preproces = textProcessing(text.text)
+    textmodel = model.summarizer(after_preproces, min_length=32, max_length=len(after_preproces) / 2)
+    return {'message': textmodel}
