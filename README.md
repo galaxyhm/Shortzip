@@ -9,6 +9,8 @@ Python 3.8.*
 ## 사용 라이브러리 및 모델
 [Kobart](https://github.com/SKT-AI/KoBART)
 
+[파인튜닝끝난 모델](https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data)
+
 ## 사용방법
 문서요약 텍스트의 training 폴더에 ```신문기사_train_original``` 을 압축풀어 data폴더에 넣어서 사용 
 
