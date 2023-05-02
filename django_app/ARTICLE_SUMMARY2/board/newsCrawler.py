@@ -34,7 +34,10 @@ class NewsCrawler:
         article_date = BeautifulSoup(article_date, "lxml").text
 
         press = str(soup.select('img.media_end_head_top_logo_img:nth-child(1)'))
+        print('log1 : '+press)
         press = cls.naver_news_press.search(press)
+        print('log2 : '+press)
+
         press = press.group(1)
 
         reporter = str(soup.select(

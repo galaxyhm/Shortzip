@@ -44,9 +44,11 @@ def news_summarizae_request_ajax(request):
     # print(request.body)
     url = json.loads(request.body)['url']
     url = url.replace('/mnews','')
+
     naver_url_regex = r'(http|https)://n.news.naver.com/article/\d+/\d+'
     regex = re.compile(naver_url_regex)
     url = regex.match(url)
+    print(url)
     
     if not url :
         print('error 올바르지 않는 url')
@@ -64,8 +66,15 @@ def news_summarizae_request_ajax(request):
     if models.NewsArticleInfo.objects.filter(url=url) :
         if models.NewsArticleInfo.objects.filter(Q(url=url) & Q(modify_date__isnull=True)) or  models.NewsArticleInfo.objects.filter(Q(url=url) & Q(modify_date = crawl_data_dict.get('modify_date'))):
             news_article = models.NewsArticleInfo.objects.get(url=url)
-            return JsonResponse({'summarize' : news_article.summary})
-        # 수정날짜가 다른 경우
+
+            return JsonResponse(
+                {
+                    'summarize' : news_article.summary,
+                    'title' : crawl_data_dict['title'],
+                    'newspaper' : crawl_data_dict['press'],
+                    'category' : crawl_data_dict['section'],
+                }
+            )
         else :
             news_article = models.NewsArticleInfo.objects.get(url=url)
             news_article.detail = crawl_data_dict['text']
@@ -83,7 +92,15 @@ def news_summarizae_request_ajax(request):
             json_data = r.json()['message'][0].get('summary_text')
             news_article.summary = json_data
             news_article.update()
-            return JsonResponse({'summarize' : json_data})
+            return JsonResponse(
+                {
+                    'summarize' : json_data,
+                    'title' : crawl_data_dict['title'],
+                    'newspaper' : crawl_data_dict['press'],
+                    'category' : crawl_data_dict['section'],
+                
+                }
+            )
 
 
     # DB 모델 객체의 값 채움
@@ -99,17 +116,24 @@ def news_summarizae_request_ajax(request):
     else :
         pass
     request_body = json.dumps(request_body)
-    # fastapi 요약문을 받아옴
-    r = requests.post('http://13.208.62.74:8908/summarize/text/', data=request_body)
-    if r.status_code != 200 :
+
+    request_summarize = requests.post('http://13.208.62.74:8908/summarize/text/', data=request_body)
+    if request_summarize.status_code != 200 :
         pass
-    json_data = r.json()['message'][0].get('summary_text')
+    json_data = request_summarize.json()['message'][0].get('summary_text')
     news_article.summary = json_data
     # 모델저장 
     news_article.save()
 
-
-    return JsonResponse({'summarize' : json_data})
+    print(json_data)
+    return JsonResponse(
+        {
+            'title' : crawl_data_dict['title'],
+            'newspaper' : crawl_data_dict['press'],
+            'category' : crawl_data_dict['section'],
+            'summarize' : json_data,           
+        }
+    )
     
 
 

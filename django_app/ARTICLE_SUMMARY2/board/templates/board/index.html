@@ -23,9 +23,12 @@
                     contentType: 'application/json; charset=UTF-8',
                     dataType : 'json',            // Json 형식의 데이터이다.
                     success : function(data){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
-                    console.log(data.summarize);
+                    console.log(data);
+                    $('input[name="subject"]').val(data.title);
+                    $('input[name="newspaper"]').val(data.newspaper);
+                    $('input[name="category"]').val(data.category);
                     $('textarea[name="result_summarization"]').val(data.summarize);
-                    $('textarea[name="result_summarization"]').focus()
+                    $('textarea[name="result_summarization"]').focus();
                     },
                     error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
                         // alert("통신 실패.")
@@ -139,6 +142,7 @@
 
 
         <!-- About Start -->
+        {% comment %} 결과창 {% endcomment %}
         <div class="container-xxl py-6" id="summary">
             <div class="container">
                 <div>
@@ -148,19 +152,19 @@
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
                                         <label for="subject">Title</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                        <input type="text" class="form-control" id="name" name="newspaper" placeholder="Your Name">
                                         <label for="name">Newspaper</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                        <input type="email" class="form-control" id="email" name="category" placeholder="Your Email">
                                         <label for="email">Category</label>
                                     </div>
                                 </div>
