@@ -43,9 +43,11 @@ def index(request):
 def news_summarizae_request_ajax(request):
     # print(request.body)
     url = json.loads(request.body)['url']
+    print(url)
     naver_url_regex = r'(http|https)://n.news.naver.com/article/\d+/\d+'
     regex = re.compile(naver_url_regex)
     url = regex.match(url)
+    print(url)
     
     if not url :
         print('error 올바르지 않는 url')
