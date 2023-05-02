@@ -4,6 +4,35 @@
 <html lang="en">
 
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+     
+                // json 형식으로 데이터 set
+                var params = {
+                          url      : "https://n.news.naver.com/article/018/0005472525"
+
+                }
+                    
+                // ajax 통신
+                $.ajax({
+                    type : "POST",            // HTTP method type(GET, POST) 형식이다.
+                    url : "/board/crawl/",      // 컨트롤러에서 대기중인 URL 주소이다.
+                    dataType : 'json',            // Json 형식의 데이터이다.
+                    success : function(data){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+                    console.log(data['message'][0]['summary_text'])
+                    console.log(data['message'][0])
+                    alert('이도원이 한말' + data['message'][0]['summary_text'])
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                        alert("통신 실패.")
+                    }
+                });
+            });
+                
+    </script>
+    
+
     <meta charset="utf-8">
     <title>soFFer - Software Landing Page Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
