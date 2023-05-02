@@ -93,19 +93,18 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav mx-auto py-0">
                         <a href="#home" class="nav-item nav-link active">Home</a>
-                        <a href="#about" class="nav-item nav-link">About</a>
-                        <a href="#overview" class="nav-item nav-link">Overview</a>
-                        <a href="#features" class="nav-item nav-link">Features</a>
+                        <a href="#summary" class="nav-item nav-link">Summary</a>
+                        <a href="#history" class="nav-item nav-link">History</a>
+                        {% comment %} <a href="#features" class="nav-item nav-link">Features</a>
                         <a href="#pricing" class="nav-item nav-link">Pricing</a>
                         <a href="#testimonial" class="nav-item nav-link">Testimonial</a>
-                        <a href="#contact" class="nav-item nav-link">Contact</a>
+                        <a href="#contact" class="nav-item nav-link">Contact</a> {% endcomment %}
                     </div>
                     {% if request.user.is_authenticated == False %}
-                    <a href="{% url 'accounts:login' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">로그인</a>
-                    <a href="{% url 'accounts:signup' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">회원가입</a>
+                    <a href="{% url 'accounts:login' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">LOG IN</a>
+                    <a href="{% url 'accounts:signup' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">SIGN UP</a>
                     {% else %}
-                    <a href="{% url 'accounts:logout' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">로그아웃</a> 
-                    <a href="{% url 'accounts:signup' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">회원가입</a>
+                    <a href="{% url 'accounts:logout' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">LOG OUT</a> 
                     {% endif %}
                 </div>
             </nav>
@@ -114,12 +113,12 @@
             <div class="container">
                 <div class="row g-5 align-items-center">
                     <div class="col-lg-6 text-center text-lg-start" style="color:#FFFFFF;">
-                    <div>
+                    {% comment %} <div>
                         <div class="flex flex-col items-center gap-y-2">
                             <p class="font-bold text-2xl text-center">Get started with RecapioGPT now!</p>
                             <p class="md:w-2/3 lg:w-5/6 xl:w-2/3 text-center text-md">Paste your link or text, launch a summary request and experience the power of artificial intelligence. Sign up with a free account to enjoy extra features like saving and personalized summaries.</p>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                     
                         <h1 class="text-white mb-4 animated slideInDown">URL to summarize</h1>
                         <p class="text-white pb-3 animated slideInDown">Enter a news article UTL to output a summary of the article.</p>
@@ -148,6 +147,7 @@
                 <div>
                     <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 700px;">
                         <h1 class="mb-4">Summary</h1>
+                        <iput class="mt-3" type="date"style="margin-left:520px" name="date">
                         <form>
                             <div class="row g-3">
                                 <div class="col-12">
@@ -170,7 +170,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea name="result_summarization"class="form-control" placeholder="Leave a message here" id="message" style="height: 300px"></textarea>
+                                        <textarea name="result_summarization"class="form-control" placeholder="Leave a message here" id="message" style="height: 200px"></textarea>
                                         <label for="message">Content</label>
                                     </div>
                                 </div>
@@ -186,7 +186,7 @@
 
 
         <!-- Advanced Feature Start -->
-        <div class="container-xxl py-6" id="features">
+        {% comment %} <div class="container-xxl py-6" id="features">
             <div class="container">
                 <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
                     <h1 class="mb-3">Advanced Features</h1>
@@ -223,12 +223,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
         <!-- Advanced Feature End -->
 
 
         <!-- Facts Start -->
-        <div class="container-xxl bg-primary my-6 py-6 wow fadeInUp" data-wow-delay="0.1s">
+        {% comment %} <div class="container-xxl bg-primary my-6 py-6 wow fadeInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.1s">
@@ -253,12 +253,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
         <!-- Facts End -->
 
 
         <!-- Process Start -->
-        <div class="container-xxl py-6">
+        {% comment %} <div class="container-xxl py-6">
             <div class="container">
                 <div class="row g-5">
                     <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -293,12 +293,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
         <!-- Process End -->
 
 
         <!-- Pricing Start -->
-        <div class="container-xxl py-6" id="pricing">
+        {% comment %} <div class="container-xxl py-6" id="pricing">
             <div class="container">
                 <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
                     <h1 class="mb-3">Pricing Plan</h1>
@@ -373,12 +373,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
         <!-- Pricing End -->
 
 
         <!-- Testimonial Start -->
-        <div class="container-xxl py-6" id="testimonial">
+        {% comment %} <div class="container-xxl py-6" id="testimonial">
             <div class="container">
                 <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
                     <h1 class="mb-3">What Our Clients Say</h1>
@@ -417,12 +417,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
         <!-- Testimonial End -->
 
 
         <!-- Contact Start -->
-        <div class="container-xxl py-6" id="contact">
+        {% comment %} <div class="container-xxl py-6" id="contact">
             <div class="container">
                 <div class="row g-5">
                     <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -491,7 +491,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
         <!-- Contact End -->
         
 
@@ -550,9 +550,9 @@
                         <div class="col-md-6 text-center text-md-end">
                             <div class="footer-menu">
                                 <a href="">Home</a>
-                                <a href="">Cookies</a>
+                                {% comment %} <a href="">Cookies</a>
                                 <a href="">Help</a>
-                                <a href="">FQAs</a>
+                                <a href="">FQAs</a> {% endcomment %}
                             </div>
                         </div>
                     </div>
