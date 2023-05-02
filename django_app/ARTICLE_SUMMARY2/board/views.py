@@ -103,6 +103,7 @@ def news_summarizae_request_ajax(request):
             )
 
 
+
     # DB 모델 객체의 값 채움
     news_article.title = crawl_data_dict['title']
     news_article.detail = crawl_data_dict['text']
