@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from transformers import pipeline
+import uvicorn
 
 app = FastAPI()
 
@@ -63,3 +64,9 @@ async def summarize_text(text: TextItem):
     after_preproces = textProcessing(text.text)
     textmodel = model.summarizer(after_preproces, min_length=32, max_length=len(after_preproces) / 2)
     return {'message': textmodel}
+
+
+def main():
+    pass
+if __name__ == '__main__':
+    uvicorn.run(app, host='0.0.0.0', port=8908  )
