@@ -44,6 +44,7 @@ def news_summarizae_request_ajax(request):
     # print(request.body)
     url = json.loads(request.body)['url']
     url = url.replace('/mnews','')
+    url = url.replace('/newspaper','')
 
     naver_url_regex = r'(http|https)://n.news.naver.com/article/\d+/\d+'
     regex = re.compile(naver_url_regex)
@@ -58,7 +59,7 @@ def news_summarizae_request_ajax(request):
     crawl_data_dict = NewsCrawler.navercrawl(url)
     news_article = models.NewsArticleInfo()
     request_body = {
-        "text" : crawl_data_dict['text']
+        "text" : crawl_data_dict['text'].strip()
 
     }
     # print('test1 통과')
@@ -89,7 +90,7 @@ def news_summarizae_request_ajax(request):
             #정상적인 응답을 못 받았을때
             if r.status_code != 200 :
                 pass
-            json_data = r.json()['message'][0].get('summary_text')
+            json_data = r.json()['message'][0].get('summary_text').strip()
             news_article.summary = json_data
             news_article.update()
             return JsonResponse(
@@ -101,6 +102,7 @@ def news_summarizae_request_ajax(request):
                 
                 }
             )
+
 
 
     # DB 모델 객체의 값 채움
@@ -120,7 +122,7 @@ def news_summarizae_request_ajax(request):
     request_summarize = requests.post('http://13.208.62.74:8908/summarize/text/', data=request_body)
     if request_summarize.status_code != 200 :
         pass
-    json_data = request_summarize.json()['message'][0].get('summary_text')
+    json_data = request_summarize.json()['message'][0].get('summary_text').strip()
     news_article.summary = json_data
     # 모델저장 
     news_article.save()
