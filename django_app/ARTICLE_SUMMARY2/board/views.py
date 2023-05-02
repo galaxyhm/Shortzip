@@ -41,6 +41,7 @@ def index(request):
 
 @require_http_methods(['POST'])
 def news_summarizae_request_ajax(request):
+    # print(request.body)
     url = json.loads(request.body)['url']
     naver_url_regex = r'(http|https)://n.news.naver.com/article/\d+/\d+'
     regex = re.compile(naver_url_regex)
@@ -57,6 +58,7 @@ def news_summarizae_request_ajax(request):
         "text" : crawl_data_dict['text']
 
     }
+    # print('test1 통과')
     # DB에 해당 URL로 있는것을 조회 
     if models.NewsArticleInfo.objects.filter(url=url) :
         if models.NewsArticleInfo.objects.filter(Q(url=url) & Q(modify_date__isnull=True)) or  models.NewsArticleInfo.objects.filter(Q(url=url) & Q(modify_date = crawl_data_dict.get('modify_date'))):
@@ -71,7 +73,7 @@ def news_summarizae_request_ajax(request):
 
             }
             request_body = json.dumps(request_body)
-            r = requests.post('http://localhost:10000/summarize/text/', data=request_body)
+            r = requests.post('http://13.208.62.74:8908/summarize/text/', data=request_body)
             if r.status_code != 200 :
                 pass
             json_data = r.json()['message'][0].get('summary_text')
@@ -80,7 +82,7 @@ def news_summarizae_request_ajax(request):
             return JsonResponse({'summarize' : json_data})
 
 
-    
+    # print('db통과')
     news_article.title = crawl_data_dict['title']
     news_article.detail = crawl_data_dict['text']
     news_article.url = url
@@ -93,14 +95,14 @@ def news_summarizae_request_ajax(request):
     else :
         pass
     request_body = json.dumps(request_body)
-    r = requests.post('http://localhost:10000/summarize/text/', data=request_body)
+    r = requests.post('http://13.208.62.74:8908/summarize/text/', data=request_body)
     if r.status_code != 200 :
         pass
     json_data = r.json()['message'][0].get('summary_text')
     news_article.summary = json_data
     news_article.save()
     return JsonResponse({'summarize' : json_data})
-
+    
 
 
 
@@ -115,7 +117,7 @@ def text_summarizae_request_ajax(request):
 
     }
     jsonData = json.dumps(cond)
-    r = requests.post('http://localhost:10000/crawl/naver/', data=jsonData)
+    # r = requests.post('http://localhost:10000/crawl/naver/', data=jsonData)
     print(r.status_code)
     # print(r.json())
     # data = json.loads(m.body)
@@ -126,8 +128,9 @@ def text_summarizae_request_ajax(request):
     return JsonResponse(r.json())
      
     
-
-    
+def ajax_test(request) :
+        
+    context = {'test' :'test'}
 
     return JsonResponse(context)
 
