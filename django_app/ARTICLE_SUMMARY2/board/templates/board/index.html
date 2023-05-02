@@ -98,7 +98,7 @@
                     <a href="{% url 'accounts:signup' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">회원가입</a>
                     {% else %}
                     <a href="{% url 'accounts:logout' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">로그아웃</a> 
-                    <a href="{% url 'accounts:signup' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">회원가입</a>
+                    {% comment %} <a href="{% url 'accounts:signup' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">회원가입</a> {% endcomment %}
                     {% endif %}
                 </div>
             </nav>
