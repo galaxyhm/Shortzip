@@ -77,6 +77,7 @@ def news_summarizae_request_ajax(request):
                     'title' : crawl_data_dict['title'],
                     'newspaper' : crawl_data_dict['press'],
                     'category' : crawl_data_dict['section'],
+                    'date' : crawl_data_dict['write_date'],
                 }
             )
         # 최신 버전이 아닐 경우, 기사의 내용을 업데이트하고 요약을 다시 생성.
@@ -103,6 +104,7 @@ def news_summarizae_request_ajax(request):
                     'title' : crawl_data_dict['title'],
                     'newspaper' : crawl_data_dict['press'],
                     'category' : crawl_data_dict['section'],
+                    'date' : crawl_data_dict['write_date'],
                 
                 }
             )
@@ -137,7 +139,8 @@ def news_summarizae_request_ajax(request):
             'title' : crawl_data_dict['title'],
             'newspaper' : crawl_data_dict['press'],
             'category' : crawl_data_dict['section'],
-            'summarize' : json_data,           
+            'summarize' : json_data,          
+            'date' : crawl_data_dict['write_date'], 
         }
     )
     
