@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'board',
     'accounts',
+    'comments',
     'django_extensions',
 ]
 
