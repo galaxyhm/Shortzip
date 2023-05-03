@@ -29,7 +29,7 @@ class TextItem(BaseModel):
 
 
 # fast api 시작후 모델 로드및 초기화
-class ModelLoad:
+class SummarizeModel:
     summarizer = None
 
     def __init__(self):
@@ -37,7 +37,18 @@ class ModelLoad:
                                    tokenizer='galaxyhm/kobartv2-summarizer-using_data')
 
 
-model = ModelLoad()
+
+class BinaryTextClassificationModel:
+    classifier = None 
+
+    def __init__(self):
+        self.classifier = pipeline("", model='daekeun-ml/koelectra-small-v3-nsmc', tokenizer='daekeun-ml/koelectra-small-v3-nsmc')
+
+
+
+
+
+summarize_model = SummarizeModel()
 
 
 # 크롤링후 테스트요약
@@ -59,10 +70,26 @@ model = ModelLoad()
 #     return {'message': text}
 
 
+# 입력 글자수 체크 밑 로직
+def check_and_summarize(input_text, model_pipeline, max_length) :
+    text_length =  len(input_text)
+    text_start_pointer = 0
+    text_end_pointer = 0
+    return_text = []
+    while True :
+        if max_length < text_length - text_start_pointer: 
+            pass
+        else :
+            return_text.append(model_pipeline.summarizer(input_text[text_start_pointer:]))
+            return return_text
+
+
+        
+    
 @app.post("/summarize/text")
 async def summarize_text(text: TextItem):
     after_preproces = textProcessing(text.text)
-    textmodel = model.summarizer(after_preproces, min_length=32, max_length=len(after_preproces) / 2)
+    textmodel = summarize_model.summarizer(after_preproces, min_length=32, max_length=len(after_preproces) / 2)
     return {'message': textmodel}
 
 

@@ -118,7 +118,7 @@ def news_summarizae_request_ajax(request):
     else :
         pass
     request_body = json.dumps(request_body)
-
+    print(len(crawl_data_dict['text']))
     request_summarize = requests.post('http://13.208.62.74:8908/summarize/text/', data=request_body)
     if request_summarize.status_code != 200 :
         pass
