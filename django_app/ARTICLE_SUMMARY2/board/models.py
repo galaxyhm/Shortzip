@@ -1,6 +1,8 @@
 from django.db import models
 from accounts.models import MyUser
 # Create your models here.
+
+
 class NewsArticleInfo(models.Model):
     title = models.CharField(max_length=100)
     detail = models.TextField()
@@ -30,8 +32,8 @@ class NewsArticleComments(models.Model):
 
 
 class UserSummarizationRequest(models.Model):
-    id = models.OneToOneField(MyUser, models.DO_NOTHING, db_column='id', primary_key=True)
-    userid = models.IntegerField(unique=True)
+    id = models.IntegerField(primary_key=True)
+    userid = models.ForeignKey(MyUser, models.DO_NOTHING, db_column='userid')
     url = models.CharField(max_length=100)
     request_time = models.DateTimeField(blank=True, null=True)
 

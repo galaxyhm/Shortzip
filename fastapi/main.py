@@ -42,7 +42,7 @@ class BinaryTextClassificationModel:
     classifier = None 
 
     def __init__(self):
-        self.classifier = pipeline("", model='daekeun-ml/koelectra-small-v3-nsmc', tokenizer='daekeun-ml/koelectra-small-v3-nsmc')
+        self.classifier = pipeline( model='daekeun-ml/koelectra-small-v3-nsmc', tokenizer='daekeun-ml/koelectra-small-v3-nsmc')
 
 
 
