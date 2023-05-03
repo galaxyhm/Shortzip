@@ -56,6 +56,7 @@ def news_summarizae_request_ajax(request):
         # return 해서 어떻게 처리하셈 
     url = url[0]
 
+    # DB에서 해당 url에 맞는 데이터 필드 가져옴.
     crawl_data_dict = NewsCrawler.navercrawl(url)
     news_article = models.NewsArticleInfo()
     request_body = {
@@ -64,7 +65,9 @@ def news_summarizae_request_ajax(request):
     }
     # print('test1 통과')
     # DB에 해당 URL로 있는것을 조회 
+    # 입력받은 URL을 가진 기사가 데이터베이스에 존재하는지 확인.
     if models.NewsArticleInfo.objects.filter(url=url) :
+        # 해당 URL을 가진 기사가 데이터베이스에 존재하면, 수정일자를 비교하여 최신 버전인지 확인.
         if models.NewsArticleInfo.objects.filter(Q(url=url) & Q(modify_date__isnull=True)) or  models.NewsArticleInfo.objects.filter(Q(url=url) & Q(modify_date = crawl_data_dict.get('modify_date'))):
             news_article = models.NewsArticleInfo.objects.get(url=url)
 
@@ -77,6 +80,7 @@ def news_summarizae_request_ajax(request):
                     'date' : crawl_data_dict['write_date'],
                 }
             )
+        # 최신 버전이 아닐 경우, 기사의 내용을 업데이트하고 요약을 다시 생성.
         else :
             news_article = models.NewsArticleInfo.objects.get(url=url)
             news_article.detail = crawl_data_dict['text']
@@ -120,7 +124,7 @@ def news_summarizae_request_ajax(request):
     else :
         pass
     request_body = json.dumps(request_body)
-
+    print(len(crawl_data_dict['text']))
     request_summarize = requests.post('http://13.208.62.74:8908/summarize/text/', data=request_body)
     if request_summarize.status_code != 200 :
         pass
