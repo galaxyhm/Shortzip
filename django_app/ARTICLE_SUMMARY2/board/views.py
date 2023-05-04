@@ -168,12 +168,12 @@ def news_comments_request_ajax(request):
     # crawl_comment_dict['comments_data'] = crawl_comment_list
     
 
-    for comment in crawl_comment_list:
-        comments_object.username = comment['userName']
-        comments_object.contents = comment['contents']
-        comments_object.sympathyCount = comment['sympathyCount']
-        comments_object.antipathyCount = comment['antipathyCount']
-        comments_object.save()
+    # for comment in crawl_comment_list:
+    #     comments_object.username = comment['userName']
+    #     comments_object.contents = comment['contents']
+    #     comments_object.sympathyCount = comment['sympathyCount']
+    #     comments_object.antipathyCount = comment['antipathyCount']
+    #     comments_object.save()
 
     
     # DB 모델 객체의 값 채움
