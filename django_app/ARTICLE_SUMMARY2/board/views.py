@@ -12,6 +12,8 @@ import requests
 import re
 from . import models
 from django.db.models import Q
+
+import pandas as pd
 # Create your views here.
 
 
@@ -145,7 +147,42 @@ def news_summarizae_request_ajax(request):
     )
     
 
+@require_http_methods(['POST'])
+def news_comments_request_ajax(request):
 
+    url = json.loads(request.body)['url']
+    url = url.replace('/mnews','')
+    url = url.replace('/newspaper','')
+    naver_url_regex = r'(http|https)://n.news.naver.com/article/\d+/\d+'
+    regex = re.compile(naver_url_regex)
+    url = regex.match(url)
+    print(f'\n 최종 url : {url}\n')
+    
+    if not url :
+        print('error 올바르지 않는 url')
+    url = url[0]
+
+    comments_object = models.NewsArticleComments()
+    crawl_comment_list = NewsCrawler.get_news_comment(url=url)
+    # crawl_comment_dict = dict()
+    # crawl_comment_dict['comments_data'] = crawl_comment_list
+    
+
+    for comment in crawl_comment_list:
+        comments_object.username = comment['userName']
+        comments_object.contents = comment['contents']
+        comments_object.sympathyCount = comment['sympathyCount']
+        comments_object.antipathyCount = comment['antipathyCount']
+        comments_object.save()
+
+    
+    # DB 모델 객체의 값 채움
+
+    return JsonResponse(
+        {
+            'comments' : crawl_comment_list
+        }
+    )
 
 
 

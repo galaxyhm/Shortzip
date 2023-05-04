@@ -17,7 +17,7 @@
                 // ajax 통신
                 $.ajax({
                     type : "POST",            // HTTP method type(GET, POST) 형식이다.
-                    url : "/board/summarize/",      // 컨트롤러에서 대기중인 URL 주소이다.
+                    url : "/board/comments/",      // 컨트롤러에서 대기중인 URL 주소이다.
                     data : params,
                     contentType: 'application/json; charset=UTF-8',
                     dataType : 'json',            // Json 형식의 데이터이다.
@@ -191,6 +191,7 @@
                                 </div>
                             </div>
                         </form>
+
                     </div>
         
                     <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -224,6 +225,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
