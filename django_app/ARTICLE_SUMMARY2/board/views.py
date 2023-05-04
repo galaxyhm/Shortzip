@@ -142,7 +142,39 @@ def news_summarizae_request_ajax(request):
     )
     
 
+@require_http_methods(['POST'])
+def news_comments_request_ajax(request):
 
+    url = json.loads(request.body)['url']
+    url = url.replace('/mnews','')
+    url = url.replace('/newspaper','')
+    naver_url_regex = r'(http|https)://n.news.naver.com/article/\d+/\d+'
+    regex = re.compile(naver_url_regex)
+    url = regex.match(url)
+    print(f'\n 최종 url : {url}\n')
+    
+    if not url :
+        print('error 올바르지 않는 url')
+    url = url[0]
+
+    comments_object = models.NewsArticleComments()
+    crawl_comment_dict = NewsCrawler.get_news_comment(url=url)
+    
+    # DB 모델 객체의 값 채움
+    comments_object.username = crawl_comment_dict['username']
+    comments_object.contents = crawl_comment_dict['contents']
+    comments_object.sympathyCount = crawl_comment_dict['sympathyCount']
+    comments_object.antipathyCount = crawl_comment_dict['antipathyCount']
+    comments_object.save()
+
+    return JsonResponse(
+        {
+            'username' : crawl_comment_dict['username'],
+            'contents' : crawl_comment_dict['contents'],
+            'sympathyCount' : crawl_comment_dict['sympathyCount'],
+            'antipathyCount' : crawl_comment_dict['antipathyCount'], 
+        }
+    )
 
 
 
