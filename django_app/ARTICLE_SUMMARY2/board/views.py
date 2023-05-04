@@ -158,7 +158,7 @@ def news_comments_request_ajax(request):
     url = url[0]
 
     comments_object = models.NewsArticleComments()
-    crawl_comment_dict = NewsCrawler.get_news_comment(url=url)
+    crawl_comment_dict = NewsCrawler.get_news_comment(url=url)[0]
     
     # DB 모델 객체의 값 채움
     comments_object.username = crawl_comment_dict['username']
