@@ -41,7 +41,7 @@
         
     
         <meta charset="utf-8">
-        <title>soFFer - Software Landing Page Template</title>
+        <title>ShortZip - Summarize your news articles!</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -83,7 +83,7 @@
     
             <!-- Navbar & Hero Start -->
             <div class="container-xxl position-relative p-0" id="home">
-                <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 ">
+                <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
                     <a href="" class="navbar-brand p-0" > 
                         <h1 class="m-0" style="font-family: 'Poppins', sans-serif;">ShortZip</h1>
                     </a>
@@ -92,12 +92,9 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse" >
                         <div class="navbar-nav mx-auto">
-                            <a href="#home" class="nav-item nav-link active">Home</a>
+                            <a href="#home" class="nav-item nav-link active" >Home</a>
                             <a href="#summary" class="nav-item nav-link">Summary</a>
-                            <a href="#history" class="nav-item nav-link">History</a>
-                            {% comment %} <a href="#features" class="nav-item nav-link">Features</a>
-                            <a href="#pricing" class="nav-item nav-link">Pricing</a> 
-                            <a href="#testimonial" class="nav-item nav-link">Services</a> {% endcomment %} 
+                            <a href="#history" class="nav-item nav-link">History</a> 
                             <a href="#contact" class="nav-item nav-link">Contact</a> 
                         </div>
                         {% if request.user.is_authenticated == False %}
@@ -112,13 +109,6 @@
                     <div class="container">
                         <div class="row g-5 align-items-center" style="justify-content: center;height:200px">
                             <div class="col-lg-6 text-center text-lg-start" style="color:#FFFFFF;">
-                            {% comment %} <div>
-                                <div class="flex flex-col items-center gap-y-2">
-                                    <p class="font-bold text-2xl text-center">Get started with RecapioGPT now!</p>
-                                    <p class="md:w-2/3 lg:w-5/6 xl:w-2/3 text-center text-md">Paste your link or text, launch a summary request and experience the power of artificial intelligence. Sign up with a free account to enjoy extra features like saving and personalized summaries.</p>
-                                </div>
-                            </div> {% endcomment %}
-                            
                                 <h1 class="text-white mb-4 animated slideInDown" style="text-align:center;font-family: 'Poppins', sans-serif;">URL to summarize</h1>
                                 <p class="text-white pb-3 animated slideInDown" style="text-align:center;font-family: 'Poppins', sans-serif;">Enter a naver news article URL to generate a summary of the article.</p>
                                 <div class="position-relative w-100 mt-3">
@@ -130,7 +120,6 @@
                                     >Summary</button>
                                 </div>
                             </div> 
-                            
                             </div>
                         </div>
                     </div>
@@ -227,7 +216,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
             
             
@@ -449,7 +437,7 @@
                 </div>
             </div>
             <!-- Testimonial End -->
-    
+
             <!-- Footer Start -->
             <div class="container-fluid bg-dark text-body footer wow fadeIn" data-wow-delay="0.1s">
                 <div class="container py-5 px-lg-5 text-white " style="font-family:'Poppins', sans-seriff;">
@@ -474,11 +462,12 @@
                         </div>
                         <div class="col-md-8 col-lg-4">
                             <p class="section-title text-white h4 mb-4">Address<span></span></p>
-                            <p><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
+                            <a class="btn btn-link-Hyeonmin-github text-white" href="https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data">gogamza/KoBART-base-v2</a>
+                            <p><i class="fa fa-duotone fa-poo me-3"></i>123 Street, New York, USA</p>
                             <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
                             <p><i class="fa fa-envelope me-3"></i>info@example.com</p>
                             <div class="d-flex pt-2">
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-outline-light btn-social" href=""><i class="fa fa-solid fa-poo"></i></a>
                                 <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
                                 <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
                                 <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
@@ -519,7 +508,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Footer End --> 
+            <!-- Footer End -->
             
             <!-- Back to Top -->
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
