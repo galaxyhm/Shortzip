@@ -155,7 +155,7 @@ def text_summarizae_request_ajax(request):
 
     }
     jsonData = json.dumps(cond)
-    # r = requests.post('http://localhost:10000/crawl/naver/', data=jsonData)
+    r = requests.post('http://localhost:10000/crawl/naver/', data=jsonData)
     print(r.status_code)
     # print(r.json())
     # data = json.loads(m.body)
