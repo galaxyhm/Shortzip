@@ -18,7 +18,7 @@
                 // ajax 통신
                 $.ajax({
                     type : "POST",            // HTTP method type(GET, POST) 형식이다.
-                    url : "/board/summarize/",      // 컨트롤러에서 대기중인 URL 주소이다.
+                    url : "/board/comments/",      // 컨트롤러에서 대기중인 URL 주소이다.
                     data : params,
                     contentType: 'application/json; charset=UTF-8',
                     dataType : 'json',            // Json 형식의 데이터이다.
@@ -237,8 +237,7 @@
                             </div>
                         </form>
                         <a href="" class="btn btn-primary py-sm-2 px-sm-4 rounded-pill mt-3" style="margin-left:500px">open</a>
-                        <a href="{% url 'board:history' %}" class="btn btn-primary py-sm-2 px-sm-4 rounded-pill mt-3" style="margin-left:10px">history</a>
-                    </div>
+                        <a href="" class="btn btn-primary py-sm-2 px-sm-4 rounded-pill mt-3" style="margin-left:10px">history</a>                    </div>
                 </div>
             </div>
         </div>         

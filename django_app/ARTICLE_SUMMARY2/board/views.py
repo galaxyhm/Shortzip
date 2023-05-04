@@ -160,28 +160,24 @@ def news_comments_request_ajax(request):
     url = url[0]
 
     comments_object = models.NewsArticleComments()
-    crawl_comment_list = NewsCrawler.get_news_comment(url=url)[0]
-
-    crawl_comment_dict = pd.DataFrame(columns=['userName', 'contents', 'sympathyCount', 'antipathyCount'])
+    crawl_comment_list = NewsCrawler.get_news_comment(url=url)
+    # crawl_comment_dict = dict()
+    # crawl_comment_dict['comments_data'] = crawl_comment_list
+    
 
     for comment in crawl_comment_list:
-        temp_df = pd.DataFrame([comment])
-        crawl_comment_dict = dict(pd.concat([crawl_comment_dict, temp_df], axis=0))
-        
+        comments_object.username = comment['userName']
+        comments_object.contents = comment['contents']
+        comments_object.sympathyCount = comment['sympathyCount']
+        comments_object.antipathyCount = comment['antipathyCount']
+        comments_object.save()
+
     
     # DB 모델 객체의 값 채움
-    comments_object.username = crawl_comment_dict['username']
-    comments_object.contents = crawl_comment_dict['contents']
-    comments_object.sympathyCount = crawl_comment_dict['sympathyCount']
-    comments_object.antipathyCount = crawl_comment_dict['antipathyCount']
-    comments_object.save()
 
     return JsonResponse(
         {
-            'username' : crawl_comment_dict['username'],
-            'contents' : crawl_comment_dict['contents'],
-            'sympathyCount' : crawl_comment_dict['sympathyCount'],
-            'antipathyCount' : crawl_comment_dict['antipathyCount'], 
+            'comments' : crawl_comment_list
         }
     )
 
