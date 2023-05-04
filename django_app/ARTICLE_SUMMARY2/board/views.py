@@ -12,6 +12,8 @@ import requests
 import re
 from . import models
 from django.db.models import Q
+
+import pandas as pd
 # Create your views here.
 
 
@@ -158,7 +160,14 @@ def news_comments_request_ajax(request):
     url = url[0]
 
     comments_object = models.NewsArticleComments()
-    crawl_comment_dict = NewsCrawler.get_news_comment(url=url)[0]
+    crawl_comment_list = NewsCrawler.get_news_comment(url=url)[0]
+
+    crawl_comment_dict = pd.DataFrame(columns=['userName', 'contents', 'sympathyCount', 'antipathyCount'])
+
+    for comment in crawl_comment_list:
+        temp_df = pd.DataFrame([comment])
+        crawl_comment_dict = dict(pd.concat([crawl_comment_dict, temp_df], axis=0))
+        
     
     # DB 모델 객체의 값 채움
     comments_object.username = crawl_comment_dict['username']
