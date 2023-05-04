@@ -34,7 +34,7 @@ class NewsArticleComments(models.Model):
 class UserSummarizationRequest(models.Model):
     id = models.IntegerField(primary_key=True)
     userid = models.ForeignKey(MyUser, models.DO_NOTHING, db_column='userid')
-    url = models.CharField(max_length=100)
+    url = models.ForeignKey(NewsArticleInfo, models.DO_NOTHING, db_column='url')
     request_time = models.DateTimeField(blank=True, null=True)
 
     class Meta:
