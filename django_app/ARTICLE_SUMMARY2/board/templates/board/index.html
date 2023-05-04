@@ -2,17 +2,16 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
 
             $(document).on("click", "button[name='url_button']", function(){
-     
+        
                 // json 형식으로 데이터 set
                 var params =JSON.stringify( {
-                          url      : $('input[name="url_input"]').val()
+                            url      : $('input[name="url_input"]').val()
                 })
                     
                 // ajax 통신
@@ -28,6 +27,7 @@
                     $('input[name="newspaper"]').val(data.newspaper);
                     $('input[name="category"]').val(data.category);
                     $('textarea[name="result_summarization"]').val(data.summarize);
+                    $('input[name="date"]').val(data.date)
                     $('textarea[name="result_summarization"]').focus();
                     },
                     error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
@@ -68,7 +68,7 @@
     <!-- Template Stylesheet -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
-
+    
 <body>
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
@@ -82,23 +82,23 @@
 
         <!-- Navbar & Hero Start -->
         <div class="container-xxl position-relative p-0" id="home">
-            <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
-                <a href="" class="navbar-brand p-0">
+            <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 ">
+                <a href="" class="navbar-brand p-0" > 
                     <h1 class="m-0">ShortZip</h1>
                     <!-- <img src="img/logo.png" alt="Logo"> -->
                 </a>
                 <button class="navbar-toggler rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav mx-auto py-0">
+                <div class="collapse navbar-collapse" id="navbarCollapse" >
+                    <div class="navbar-nav mx-auto">
                         <a href="#home" class="nav-item nav-link active">Home</a>
                         <a href="#summary" class="nav-item nav-link">Summary</a>
                         <a href="#history" class="nav-item nav-link">History</a>
                         {% comment %} <a href="#features" class="nav-item nav-link">Features</a>
-                        <a href="#pricing" class="nav-item nav-link">Pricing</a>
-                        <a href="#testimonial" class="nav-item nav-link">Testimonial</a>
-                        <a href="#contact" class="nav-item nav-link">Contact</a> {% endcomment %}
+                        <a href="#pricing" class="nav-item nav-link">Pricing</a> 
+                        <a href="#testimonial" class="nav-item nav-link">Services</a> {% endcomment %} 
+                        <a href="#contact" class="nav-item nav-link">Contact</a> 
                     </div>
                     {% if request.user.is_authenticated == False %}
                     <a href="{% url 'accounts:login' %}" class="btn btn-light rounded-pill py-2 px-4 ms-3 d-none d-lg-block">LOG IN</a>
@@ -108,9 +108,9 @@
                     {% endif %}
                 </div>
             </nav>
-            <div class="container-xxl bg-primary hero-header" style="height: 600px">
+            <div class="container-xxl bg-primary hero-header" style="height: 750px">
                 <div class="container">
-                    <div class="row g-5 align-items-center" style="justify-content: center">
+                    <div class="row g-5 align-items-center" style="justify-content: center;height:280px">
                         <div class="col-lg-6 text-center text-lg-start" style="color:#FFFFFF;">
                         {% comment %} <div>
                             <div class="flex flex-col items-center gap-y-2">
@@ -119,8 +119,8 @@
                             </div>
                         </div> {% endcomment %}
                         
-                            <h1 class="text-white mb-4 animated slideInDown">URL to summarize</h1>
-                            <p class="text-white pb-3 animated slideInDown">Enter a naver news article URL to generate a summary of the article.</p>
+                            <h1 class="text-white mb-4 animated slideInDown" style="text-align:center;">URL to summarize</h1>
+                            <p class="text-white pb-3 animated slideInDown" style="text-align:center">Enter a naver news article URL to generate a summary of the article.</p>
                             <div class="position-relative w-100 mt-3">
                                 <input name="url_input" class="form-control border-0 rounded-pill w-100 ps-4 pe-5" type="text" placeholder="URL" style="height: 58px;">
     
@@ -128,124 +128,117 @@
                                 >Summary</button>
                             </div>
                         </div> 
-                        {% comment %} <div class="col-lg-6 text-center text-lg-start">
-                            <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 700px;">
-                                <h1 class="mb-4">Summary</h1>
-                                <iput class="mt-3" type="date"style="margin-left:520px" name="date">
-                                <form>
-                                    <div class="row g-3">
-                                        <div class="col-12">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
-                                                <label for="subject">Title</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" id="name" name="newspaper" placeholder="Your Name">
-                                                <label for="name">Newspaper</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <input type="email" class="form-control" id="email" name="category" placeholder="Your Email">
-                                                <label for="email">Category</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-floating">
-                                                <textarea name="result_summarization"class="form-control" placeholder="Leave a message here" id="message" style="height: 200px"></textarea>
-                                                <label for="message">Content</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                                <a href="" class="btn btn-primary py-sm-2 px-sm-4 rounded-pill mt-3" style="margin-left:250px">Open</a>
-                                <a href="" class="btn btn-primary py-sm-2 px-sm-4 rounded-pill mt-3" style="margin-left:10px">Save</a>
-                            </div> {% endcomment %}
-                            {% comment %} <img class="img-fluid rounded animated zoomIn" src="{% static 'img/hero.jpg' %}" alt=""> {% endcomment %}
+                        
                         </div>
                     </div>
                 </div>
             </div>
-            
-        {% comment %} <div class="container-xxl bg-primary hero-header"> 
-            <div class="container">
-                <div class="row g-5 align-items-center">
-                    <div class="col-lg-6 text-center text-lg-start" style="color:#FFFFFF;">
-                    <div>
-                        <div class="flex flex-col items-center gap-y-2">
-                            <p class="font-bold text-2xl text-center">Get started with RecapioGPT now!</p>
-                            <p class="md:w-2/3 lg:w-5/6 xl:w-2/3 text-center text-md">Paste your link or text, launch a summary request and experience the power of artificial intelligence. Sign up with a free account to enjoy extra features like saving and personalized summaries.</p>
-                        </div>
-                    </div>
-                    
-                        <h1 class="text-white mb-4 animated slideInDown">URL to summarize</h1>
-                        <p class="text-white pb-3 animated slideInDown">Enter a news article UTL to output a summary of the article.</p>
-                        <div class="position-relative w-100 mt-3">
-                            <input name="url_input" class="form-control border-0 rounded-pill w-100 ps-4 pe-5" type="text" placeholder="URL" style="height: 58px;">
-
-                            <button type="button" name="url_button" id='url_button' class="btn btn-primary rounded-pill py-2 px-3 shadow-none position-absolute top-0 end-0 m-2"
-                            >Summary</button>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 text-center text-lg-start">
-                        <img class="img-fluid rounded animated zoomIn" src="{% static 'img/hero.jpg' %}" alt="">
-                    </div>
-                </div>
-            </div>
         </div>
-        </div>
-
         <!-- Navbar & Hero End -->
 
 
         <!-- About Start -->
         {% comment %} 결과창 {% endcomment %}
-        <div class="container-xxl py-6" id="summary">
+        <div class="container-xxl py-6" id="contact">
             <div class="container">
-                <div>
-                    <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 700px;">
-                        <h1 class="mb-4">ShortZip</h1>
-                        <iput class="mt-3" type="date"style="margin-left:520px" name="date">
+                <div class="row g-5">
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                        <h2 class="mb-4">Sum Up</h2>
                         <form>
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
+                                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" style="background-color:transparent;border:none" readonly>
                                         <label for="subject">Title</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" name="newspaper" placeholder="Your Name">
-                                        <label for="name">Newspaper</label>
+                                        <input type="text" class="form-control" id="name" name="newspaper" placeholder="Press" style="background-color:transparent;border:none" readonly>
+                                        <label for="newspaper">Newspaper</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" name="category" placeholder="Your Email">
-                                        <label for="email">Category</label>
+                                        <input type="email" class="form-control" id="email" name="category" placeholder="Article category" style="background-color:transparent;border:none" readonly>
+                                        <label for="category">Category</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control"  id="date" name="date" placeholder="Article date" style="background-color:transparent;border:none" readonly>
+                                        <label for="date">Date</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea name="result_summarization"class="form-control" placeholder="Leave a message here" id="message" style="height: 200px"></textarea>
-                                        <label for="message">Content</label>
+                                        <textarea name="result_summarization"class="form-control" placeholder="Leave a message here" id="message" 
+                                        style="height: 250px;background-color:transparent;border:none" readonly></textarea>
+                                        <label for="result_summarization">Content</label>
                                     </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="overflow-hidden">
+                                        <div data-zanim-xs="{&quot;delay&quot;:0.2}" style="transform: translate(0px, 0px); opacity: 1;">
+                                            <a class="d-flex align-items-center" href="#!">history
+                                                <div class="overflow-hidden ms-2">
+                                                    <span class="d-inline-block" style="transform: translate(0px, 0px); opacity: 1;">⟶
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>    
                                 </div>
                             </div>
                         </form>
-                        <a href="" class="btn btn-primary py-sm-2 px-sm-4 rounded-pill mt-3" style="margin-left:500px">open</a>
-                        <a href="" class="btn btn-primary py-sm-2 px-sm-4 rounded-pill mt-3" style="margin-left:10px">history</a>                    </div>
+
+                    </div>
+        
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <h2 class="mb-3">Comments</h2>
+                        <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0 btn-square rounded-circle bg-primary text-white">
+                                <i class="fa fa-phone-alt"></i>
+                            </div>
+                            <div class="ms-3">
+                                <p class="mb-2">Call Us</p>
+                                <h5 class="mb-0">+012 345 6789</h5>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0 btn-square rounded-circle bg-primary text-white">
+                                <i class="fa fa-envelope"></i>
+                            </div>
+                            <div class="ms-3">
+                                <p class="mb-2">Mail Us</p>
+                                <h5 class="mb-0">info@example.com</h5>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-0">
+                            <div class="flex-shrink-0 btn-square rounded-circle bg-primary text-white">
+                                <i class="fa fa-map-marker-alt"></i>
+                            </div>
+                            <div class="ms-3">
+                                <p class="mb-2">Our Office</p>
+                                <h5 class="mb-0">123 Street, New York, USA</h5>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </div>         
+        </div>
+        
+        
+        
+
         <!-- Overview End -->
 
 
         <!-- Advanced Feature Start -->
-        <div class="container-xxl py-6" id="features">
+
+        {% comment %} <div class="container-xxl py-6" id="features">
             <div class="container">
                 <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
                     <h1 class="mb-3">Advanced Features</h1>
@@ -282,7 +275,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
         <!-- Advanced Feature End -->
 
 
@@ -507,76 +500,6 @@
 
 
         <!-- Contact Start -->
-        <div class="container-xxl py-6" id="contact">
-            <div class="container">
-                <div class="row g-5">
-                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <h1 class="mb-3">Get In Touch</h1>
-                        <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
-                        <div class="d-flex mb-4">
-                            <div class="flex-shrink-0 btn-square rounded-circle bg-primary text-white">
-                                <i class="fa fa-phone-alt"></i>
-                            </div>
-                            <div class="ms-3">
-                                <p class="mb-2">Call Us</p>
-                                <h5 class="mb-0">+012 345 6789</h5>
-                            </div>
-                        </div>
-                        <div class="d-flex mb-4">
-                            <div class="flex-shrink-0 btn-square rounded-circle bg-primary text-white">
-                                <i class="fa fa-envelope"></i>
-                            </div>
-                            <div class="ms-3">
-                                <p class="mb-2">Mail Us</p>
-                                <h5 class="mb-0">info@example.com</h5>
-                            </div>
-                        </div>
-                        <div class="d-flex mb-0">
-                            <div class="flex-shrink-0 btn-square rounded-circle bg-primary text-white">
-                                <i class="fa fa-map-marker-alt"></i>
-                            </div>
-                            <div class="ms-3">
-                                <p class="mb-2">Our Office</p>
-                                <h5 class="mb-0">123 Street, New York, USA</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                        <form>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" placeholder="Your Name">
-                                        <label for="name">Your Name</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" placeholder="Your Email">
-                                        <label for="email">Your Email</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="subject" placeholder="Subject">
-                                        <label for="subject">Subject</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 150px"></textarea>
-                                        <label for="message">Message</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Send Message</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Contact End -->
         
 
@@ -627,9 +550,9 @@
                     <div class="row">
                         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                             &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved. 
-							
-							<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-							Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                            
+                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                            Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
                             <br>Distributed By: <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
                         </div>
                         <div class="col-md-6 text-center text-md-end">
@@ -663,5 +586,5 @@
     <!-- Template Javascript -->
     <script src="{% static 'js/main.js' %}"></script>
 </body>
-
+    
 </html>
