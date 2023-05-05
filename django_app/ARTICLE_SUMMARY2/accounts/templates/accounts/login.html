@@ -6,10 +6,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
 <title>Bootstrap Sign up Form Horizontal</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <style>
 	body {
 		color: #999;
@@ -22,7 +21,7 @@
 		box-shadow: none !important;
 	}
 	.form-control:focus {
-		border-color: #4AC4F3;
+		border-color: #a3abda;
 	}
 	.form-control, .btn {        
 		border-radius: 3px;
@@ -37,7 +36,7 @@
 		margin: 0 0 30px 0;
 		display: inline-block;
 		padding: 0 30px 10px 0;
-		border-bottom: 3px solid #4AC4F3;
+		border-bottom: 3px solid #8F12FD;
 	}
 	.signup-form form {
 		color: #999;
@@ -62,29 +61,35 @@
 	.signup-form .btn {        
 		font-size: 16px;
 		font-weight: bold;
-		background: #4AC4F3;
+		background: #8F12FD;
 		border: none;
 		margin-top: 20px;
 		min-width: 140px;
 	}
 	.signup-form .btn:hover, .signup-form .btn:focus {
-		background: #4AC4F3;
+		background: #8F12FD;
 		outline: none !important;
 	}
 	.signup-form a {
-		color: #4AC4F3;
+		color: #8F12FD;
 		text-decoration: underline;
 	}
 	.signup-form a:hover {
 		text-decoration: none;
 	}
 	.signup-form form a {
-		color: #4AC4F3;
+		color: #8F12FD;
 		text-decoration: none;
 	}	
 	.signup-form form a:hover {
 		text-decoration: underline;
 	}
+
+	. {
+		transition: .5s;
+	}
+	
+
 </style>
 </head>
 <body style="height: 1000px; margin:100px 0px"> 
@@ -115,32 +120,31 @@
 {#			</div>  #}
 {#		</div>#}
 
-	<form method="post" action="" class="form-horizontal">	
+	<form method="post" action="" class="form-horizontal" style="font-family: 'Poppins';">	
 		<div class="row">
 			<div class="col-8 offset-4">
-				<h2>로그인</h2>
+				<h2 style="font-family: 'Poppins';">Log In</h2>
 			</div>	
 		</div>	
 		<input type="hidden" name="csrfmiddlewaretoken" value="AEfw5WxwoN77Yqvcv63gqPIegEuW7CyqnCNgyspxby9VR1tcGyQruCVU9xgMMAzS">
 		
 		<div class="form-group row">
-			<label for="id_username">이메일 주소:</label> 
+			<label for="id_username">email address:</label> 
 			<div class="col-8">
 				<input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="255" required="" id="id_username" class="form-control">
 
 			</div>
 		</div>
 		<div class="form-group row">
-			<label for="id_password">비밀번호:</label> 
+			<label for="id_password">password:</label> 
 			<div class="col-8">
 				<input type="password" name="password" autocomplete="current-password" required="" id="id_password" class="form-control">
 			</div>
 		</div>
 		{% csrf_token %}
-		<input type="submit" value="로그인" style="display:block; background: #4AC4F3; margin:auto;" class="btn btn-primary btn-lg">
-
+		<input type="submit" value="Log In" style="display:block; background: #8F12FD; margin:auto;" class="btn btn-primary-gradient rounded-pill py-2 px-3">
 	</form>
-	<div class="text-center">아직 회원이 아니신가요? <a href="/accounts/signup/">회원 가입</a></div>
+	<div class="text-center" style="font-family: 'Poppins';" >Not a member yet? <a href="/accounts/signup/">Sign Up here</a></div>
 
 <!--
 <body style="height: 1000px; margin:100px 0px">
