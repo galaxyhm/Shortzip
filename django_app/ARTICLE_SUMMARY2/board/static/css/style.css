@@ -2,7 +2,7 @@
 :root {
     --primary: #4294E3;
     --secondary: #8F12FD;
-    --light: #F0F6FF;
+    --light: #FFFFFF;
     --dark: #262B47;
 
 }
@@ -42,6 +42,10 @@ h6,
     font-weight: 500 !important;
 }
 
+/*** text font***/
+body {
+    font-family: "Poppins", sans-serif;
+}
 
 /*** Gradient Text & BG ***/
 .text-primary-gradient {
