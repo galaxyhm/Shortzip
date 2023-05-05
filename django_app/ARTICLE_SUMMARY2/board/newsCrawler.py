@@ -185,7 +185,8 @@ class NewsCrawler:
         response = requests.get('https://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json', params=params, headers=headers)
         response.encoding = "UTF-8-sig"
         res = response.text.replace("_callback(","")[:-2]
-        temp_comments=json.loads(res) 
+        temp_comments=json.loads(res)
+        # return temp_comments['result']['commentList']
         for comment in temp_comments['result']['commentList']:
             contents =comment['contents']
             contents =contents.replace('\n','')
@@ -197,6 +198,7 @@ class NewsCrawler:
                 'contents' : contents,
                 'sympathyCount' : sympathyCount,
                 'antipathyCount' : antipathyCount,
+
             }
             tot_comment_list.append(temp_dict)
 
@@ -208,12 +210,14 @@ class NewsCrawler:
 
 
 
+from pprint import pprint
 
 def main():
     url = 'https://n.news.naver.com/article/007/0000007362?ntype=RANKING'
     k = NewsCrawler.get_news_comment(url)
-    print(k)
+    pprint(k)
 
 
 if __name__ == '__main__':
     main()
+

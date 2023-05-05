@@ -32,7 +32,7 @@
             event.preventDefault();
             
             $('html, body').animate({
-                scrollTop: $(this.hash).offset().top - 60
+                scrollTop: $(this.hash).offset().top - 45
             }, 1500, 'easeInOutExpo');
             
             if ($(this).parents('.navbar-nav').length) {
@@ -64,14 +64,24 @@
     });
 
 
+    // Screenshot carousel
+    $(".screenshot-carousel").owlCarousel({
+        autoplay: true,
+        smartSpeed: 1000,
+        loop: true,
+        dots: true,
+        items: 1
+    });
+
+
     // Testimonials carousel
     $(".testimonial-carousel").owlCarousel({
         autoplay: true,
         smartSpeed: 1000,
-        margin: 25,
-        dots: false,
         loop: true,
-        nav : true,
+        center: true,
+        dots: false,
+        nav: true,
         navText : [
             '<i class="bi bi-chevron-left"></i>',
             '<i class="bi bi-chevron-right"></i>'
@@ -80,8 +90,11 @@
             0:{
                 items:1
             },
-            992:{
+            768:{
                 items:2
+            },
+            992:{
+                items:3
             }
         }
     });
