@@ -12,7 +12,7 @@ import requests
 import re
 from . import models
 from django.db.models import Q
-
+import random
 import pandas as pd
 # Create your views here.
 
@@ -169,14 +169,17 @@ def news_comments_request_ajax(request):
     
 
     # for comment in crawl_comment_list:
-    #     comments_object.username = comment['userName']
-    #     comments_object.contents = comment['contents']
-    #     comments_object.sympathyCount = comment['sympathyCount']
-    #     comments_object.antipathyCount = comment['antipathyCount']
-    #     comments_object.save()
+        # comments_object.username = comment['userName']
+        # comments_object.contents = comment['contents']
+        # comments_object.sympathyCount = comment['sympathyCount']
+        # comments_object.antipathyCount = comment['antipathyCount']
+        # comments_object.save()
 
-    
-    # DB 모델 객체의 값 채움
+
+    # 프론트 엔드 테스트 할 수 있는 코드
+    for i in range(len(crawl_comment_list)) :
+        crawl_comment_list[i]['emotion'] = random.randrange(0, 2)
+        crawl_comment_list[i]['emotion_value'] = random.random()
 
     return JsonResponse(
         {
