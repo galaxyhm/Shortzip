@@ -41,6 +41,7 @@
                                console.log(data.comments.length)
                                 for(i=0;i<data.comments.length;i++)
                                     console.log(data.comments[i]);
+                                    $('input[name="comments-content"]').val(data.comments[0].contents);
                                 // comments[i]의 data type dictionary
                                 // 딕셔너리 안 속성과 값형태
                                 // antipathyCount : integer
@@ -144,7 +145,7 @@
         <div class="container-xxl bg-primary hero-header" style="height: 750px">
             <div class="container">
                 <div class="row g-5 align-items-center" style="justify-content: center;height:200px">
-                    <div class="col-lg-6 text-center text-lg-start" style="color:#FFFFFF;">
+                    <div class="col-lg-6 text-center text-lg-start" style="color:#FFFFFF; width:70%">
                         <h1 class="text-white mb-4 animated slideInDown"
                             style="text-align:center;font-family: 'Poppins', sans-serif;">URL to summarize</h1>
                         <p class="text-white pb-3 animated slideInDown"
@@ -174,7 +175,7 @@
 <div class="container-xxl py-6" id="summary">
     <div class="container">
         <div class="row g-5">
-            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+            <div class="col-lg-6 mx-auto wow fadeInUp" data-wow-delay="0.5s" style="width:70%">
                 <h2 class="mb-4" style="font-family: 'Poppins', sans-serif;">Sum Up</h2>
                 <form style="font-family: 'Poppins', sans-serif;">
                     <div class="row g-3">
@@ -211,12 +212,12 @@
                             <div class="form-floating">
                                             <textarea name="result_summarization" class="form-control"
                                                       placeholder="Leave a message here" id="message"
-                                                      style="height: 250px;background-color:transparent;border:none"
+                                                      style="height: 150px;background-color:transparent;border:none"
                                                       readonly></textarea>
                                 <label for="result_summarization">Content</label>
                             </div>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12" style="height: 100px">
                             <div class="overflow-hidden">
                                 <div data-zanim-xs="{&quot;delay&quot;:0.2}"
                                      style="transform: translate(0px, 0px); opacity: 1;">
@@ -234,108 +235,34 @@
                     </div>
                 </form>
             </div>
-
-            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="font-family: 'Poppins', sans-serif;">
-                <h2 class="mb-3" style="font-family: 'Poppins', sans-serif;">Comments</h2>
-                <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with
-                    Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a
-                            href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
-                <div class="d-flex mb-4">
-                    <div class="flex-shrink-0 btn-square rounded-circle bg-primary text-white">
-                        <i class="fa fa-phone-alt"></i>
-                    </div>
-                    <div class="ms-3">
-                        <p class="mb-2">Call Us</p>
-                        <h5 class="mb-0">+012 345 6789</h5>
-                    </div>
-                </div>
-                <div class="d-flex mb-4">
-                    <div class="flex-shrink-0 btn-square rounded-circle bg-primary text-white">
-                        <i class="fa fa-envelope"></i>
-                    </div>
-                    <div class="ms-3">
-                        <p class="mb-2">Mail Us</p>
-                        <h5 class="mb-0">info@example.com</h5>
-                    </div>
-                </div>
-                <div class="d-flex mb-0">
-                    <div class="flex-shrink-0 btn-square rounded-circle bg-primary text-white">
-                        <i class="fa fa-map-marker-alt"></i>
-                    </div>
-                    <div class="ms-3">
-                        <p class="mb-2">Our Office</p>
-                        <h5 class="mb-0">123 Street, New York, USA</h5>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-
 
     <!-- Overview End -->
 
-
-    <!-- Facts Start -->
-    <div class="container-xxl bg-light my-6 py-5" id="overview">
+    <!-- Comments Start -->
+    <div class="container-xxl py-6" id="comments">
         <div class="container">
-            <div class="row g-5 py-5 align-items-center">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <img class="img-fluid rounded" src="img/overview-1.jpg">
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="d-flex align-items-center mb-4">
-                        <h1 class="mb-0">01</h1>
-                        <span class="bg-primary mx-2" style="width: 30px; height: 2px;"></span>
-                        <h5 class="mb-0">App Integration</h5>
-                    </div>
-                    <p class="mb-4">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat
-                        ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo eirmod magna dolore erat
-                        amet</p>
-                    <p><i class="fa fa-check-circle text-primary me-3"></i>Fully customizable</p>
-                    <p><i class="fa fa-check-circle text-primary me-3"></i>User friendly interface</p>
-                    <p class="mb-0"><i class="fa fa-check-circle text-primary me-3"></i>More effective & poerwfull</p>
-                </div>
-            </div>
-            <div class="row g-5 py-5 align-items-center flex-column-reverse flex-lg-row">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="d-flex align-items-center mb-4">
-                        <h1 class="mb-0">02</h1>
-                        <span class="bg-primary mx-2" style="width: 30px; height: 2px;"></span>
-                        <h5 class="mb-0">App Customization</h5>
-                    </div>
-                    <p class="mb-4">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat
-                        ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo eirmod magna dolore erat
-                        amet</p>
-                    <p><i class="fa fa-check-circle text-primary me-3"></i>Fully customizable</p>
-                    <p><i class="fa fa-check-circle text-primary me-3"></i>User friendly interface</p>
-                    <p class="mb-0"><i class="fa fa-check-circle text-primary me-3"></i>More effective & poerwfull</p>
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <img class="img-fluid rounded" src="img/overview-2.jpg">
-                </div>
-            </div>
-            <div class="row g-5 py-5 align-items-center">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <img class="img-fluid rounded" src="img/overview-3.jpg">
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="d-flex align-items-center mb-4">
-                        <h1 class="mb-0">03</h1>
-                        <span class="bg-primary mx-2" style="width: 30px; height: 2px;"></span>
-                        <h5 class="mb-0">App Modification</h5>
-                    </div>
-                    <p class="mb-4">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat
-                        ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo eirmod magna dolore erat
-                        amet</p>
-                    <p><i class="fa fa-check-circle text-primary me-3"></i>Fully customizable</p>
-                    <p><i class="fa fa-check-circle text-primary me-3"></i>User friendly interface</p>
-                    <p class="mb-0"><i class="fa fa-check-circle text-primary me-3"></i>More effective & poerwfull</p>
+            <div class="row g-5">
+                <div class="col-lg-6 mx-auto wow fadeInUp" data-wow-delay="0.5s" style="width:70%">
+                    <h2 class="mb-4" style="font-family: 'Poppins', sans-serif;">Comments</h2>
+                    <form style="font-family: 'Poppins', sans-serif;">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating" style="height: 200px">
+                                    <input type="text" class="form-control" id="comments-content" name="comments-content"
+                                           placeholder="Content" style="background-color:transparent;border:none" readonly>
+                                    {% comment %} <label for="comments-content">Comment</label> {% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Facts End -->
 
+    <!-- Comments End -->
 
     <!-- Process Start -->
     <div class="container-xxl py-6">
