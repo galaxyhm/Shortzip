@@ -206,8 +206,8 @@ def text_summarizae_request_ajax(request):
     return JsonResponse(r.json())
 
 
-def history_request_ajax(request):
-    return render(request, 'board/history.html')
+# def history_request_ajax(request):
+#     return render(request, 'board/history.html')
 
      
     
