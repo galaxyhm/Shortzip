@@ -31,32 +31,35 @@
                         $('textarea[name="result_summarization"]').focus();
 
 
-                        $.ajax({
-                            type: "POST",            // HTTP method type(GET, POST) 형식이다.
-                            url: "/board/comments/",      // 컨트롤러에서 대기중인 URL 주소이다.
-                            data: params,
-                            contentType: 'application/json; charset=UTF-8',
-                            dataType: 'json',            // Json 형식의 데이터이다.
-                            success: function (data) { // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
-                               console.log(data.comments.length)
-                                for(i=0;i<data.comments.length;i++)
-                                    console.log(data.comments[i]);
-                                    $('input[name="comments-content"]').val(data.comments[0].contents);
-                                // comments[i]의 data type dictionary
-                                // 딕셔너리 안 속성과 값형태
-                                // antipathyCount : integer
-                                // contents : string
-                                // sympathyCount : integer
-                                // userName:
-                                // emotion : 0 은 부정 1은 긍정
-                                // emotion_value : float 0~1 사이의 값
-
-
-                            },
-                            error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
-                                // alert("통신 실패.")
-                            },
-                        });
+                    $.ajax({
+                        type: "POST",            // HTTP method type(GET, POST) 형식이다.
+                        url: "/board/comments/",      // 컨트롤러에서 대기중인 URL 주소이다.
+                        data: params,
+                        contentType: 'application/json; charset=UTF-8',
+                        dataType: 'json',            // Json 형식의 데이터이다.
+                        success: function (data) { // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+                            var comments = data.comments; // 받아온 댓글 데이터 
+                            var container = $('#comments-container'); // 댓글 컨테이너 요소
+                            if (comments < 5) {
+                                alert("There are not enough comments.")
+                            }else {
+                                for(var i = 0; i < 5; i++) {
+                                    var comment = comments[i];
+                                    var userName = comment.userName;
+                                    var contents = comment.contents;
+                                    // 댓글 요소 생성 
+                                    var commentElement = $('<div class="comment; form-control" style="background-color:transparent;border:none"><p class="userName"></p><p class="contents"></p></div>');
+                                    commentElement.find('.userName').text(userName);
+                                    commentElement.find('.contents').text(contents);
+                                    // 댓글 컨테이너에 삽입
+                                    container.append(commentElement);
+                                }
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                            // alert("통신 실패.")
+                        },
+                    });
                     },
 
                     error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
@@ -112,7 +115,7 @@
 
 
     <!-- Navbar & Hero Start -->
-    <div class="container-xxl position-relative p-0" id="home">
+    <div class="container-xxl position-relative p-0" data-wow-delay="0.01s" id="home">
         <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
             <a href="" class="navbar-brand p-0">
                 <h1 class="m-0" style="font-family: 'Poppins', sans-serif;">ShortZip</h1>
@@ -172,11 +175,11 @@
 
 <!-- summary Start -->
 {% comment %} 결과창 {% endcomment %}
-<div class="container-xxl py-6" id="summary">
+<div class="container-xxl py-6" data-wow-delay="0.01s" id="summary">
     <div class="container">
-        <div class="row g-5">
+        <div class="row g-5" style="margin-top:150px">
             <div class="col-lg-6 mx-auto wow fadeInUp" data-wow-delay="0.5s" style="width:70%">
-                <h2 class="mb-4" style="font-family: 'Poppins', sans-serif;">Sum Up</h2>
+                <h2 class="mb-4 text-primary-gradient flex-shrink-0" style="font-family: 'Poppins', sans-serif;">Sum Up</h2>
                 <form style="font-family: 'Poppins', sans-serif;">
                     <div class="row g-3">
                         <div class="col-12">
@@ -210,10 +213,10 @@
                         </div>
                         <div class="col-12">
                             <div class="form-floating">
-                                            <textarea name="result_summarization" class="form-control"
-                                                      placeholder="Leave a message here" id="message"
-                                                      style="height: 150px;background-color:transparent;border:none"
-                                                      readonly></textarea>
+                                <textarea name="result_summarization" class="form-control"
+                                placeholder="Leave a message here" id="message"
+                                style="height: 150px;background-color:transparent;border:none" readonly>
+                                </textarea>
                                 <label for="result_summarization">Content</label>
                             </div>
                         </div>
@@ -224,9 +227,8 @@
                                     <a class="d-flex align-items-center" style="font-family: 'Poppins', sans-serif;"
                                        href="#!">history
                                         <div class="overflow-hidden ms-2">
-                                                        <span class="d-inline-block"
-                                                              style="transform: translate(0px, 0px); opacity: 1;">⟶
-                                                        </span>
+                                            <span class="d-inline-block" style="transform: translate(0px, 0px); opacity: 1;">⟶
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -243,20 +245,40 @@
     <!-- Comments Start -->
     <div class="container-xxl py-6" id="comments">
         <div class="container">
-            <div class="row g-5">
+            <div class="row g-5" style="margin-bottom:200px">
                 <div class="col-lg-6 mx-auto wow fadeInUp" data-wow-delay="0.5s" style="width:70%">
-                    <h2 class="mb-4" style="font-family: 'Poppins', sans-serif;">Comments</h2>
-                    <form style="font-family: 'Poppins', sans-serif;">
+                    <h2 class="mb-4 text-primary-gradient flex-shrink-0" style="font-family: 'Poppins', sans-serif;">Comments</h2>
+                    <p class="mb-4">Shows the top 5 comments with the most empathy.</p> 
+                    <form style="font-family: 'Poppins', sans-serif; height: 700px;background-color:transparent;border:none">
                         <div class="row g-3">
                             <div class="col-12">
-                                <div class="form-floating" style="height: 200px">
-                                    <input type="text" class="form-control" id="comments-content" name="comments-content"
-                                           placeholder="Content" style="background-color:transparent;border:none" readonly>
-                                    {% comment %} <label for="comments-content">Comment</label> {% endcomment %}
+                                <div class="form-floating">
+                                    <div id="comments-container"></div>
                                 </div>
                             </div>
                         </div>
                     </form>
+                    <div class="row g-4 mb-4">
+                        <h3></h3>
+                        <div class="col-sm-6 wow fadeIn" data-wow-delay="0.5s">
+                            <div class="d-flex">
+                                <i class="fa fa-smile fa-2x text-primary-gradient flex-shrink-0"></i>
+                                <div class="ms-3">
+                                    <h2 class="mb-0" data-toggle="counter-up">1234</h2>
+                                    <p class="text-primary-gradient mb-0">Positive</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 wow fadeIn" data-wow-delay="0.7s">
+                            <div class="d-flex">
+                                <i class="fa fa-frown fa-2x text-secondary-gradient flex-shrink-0"></i>
+                                <div class="ms-3">
+                                    <h2 class="mb-0" data-toggle="counter-up">1234</h2>
+                                    <p class="text-secondary-gradient mb-0">Negative</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -264,195 +286,9 @@
 
     <!-- Comments End -->
 
-    <!-- Process Start -->
-    <div class="container-xxl py-6">
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <img class="img-fluid rounded" src="{% static 'img/process.jpg' %}">
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <h1 class="mb-4">Three Simple Steps To Start Working With</h1>
-                    <p class="mb-4">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat
-                        ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo eirmod magna dolore erat
-                        amet</p>
-                    <ul class="process mb-0">
-                        <li>
-                            <span><i class="fa fa-cog"></i></span>
-                            <div>
-                                <h5>Install the Software</h5>
-                                <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
-                                    eos erat ipsum et lorem et sit</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span><i class="fa fa-address-card"></i></span>
-                            <div>
-                                <h5>Setup Your Profile</h5>
-                                <p>Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et
-                                    sit, sed stet lorem sit clita duo</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span><i class="fa fa-check"></i></span>
-                            <div>
-                                <h5>Enjoy The Features</h5>
-                                <p>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit
-                                    clita duo justo magna</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Process End -->
-
-
-    <!-- Pricing Start -->
-    <div class="container-xxl py-6" id="pricing">
-        <div class="container">
-            <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-                <h1 class="mb-3">Pricing Plan</h1>
-                <p class="mb-5">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat
-                    ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo</p>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="price-item rounded overflow-hidden">
-                        <div class="bg-dark p-4">
-                            <h4 class="text-white mt-2">Standard</h4>
-                            <div class="text-white">
-                                <span class="align-top fs-4 fw-bold">$</span>
-                                <h1 class="d-inline display-6 text-primary mb-0"> 29.99</h1>
-                                <span class="align-baseline">/ Month</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between mb-3"><span>HTML5 & CSS3</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Bootstrap v5</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Responsive Layout</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Cross-browser Support</span><i
-                                    class="fa fa-times text-danger pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Remove Author's Credit</span><i
-                                    class="fa fa-times text-danger pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>PHP & Ajax Contact Form</span><i
-                                    class="fa fa-times text-danger pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>6 Months Free Support</span><i
-                                    class="fa fa-times text-danger pt-1"></i></div>
-                            <a href="" class="btn btn-dark rounded-pill py-2 px-4 mt-3">Get Started</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="price-item rounded overflow-hidden">
-                        <div class="bg-primary p-4">
-                            <h4 class="text-white mt-2">Professional</h4>
-                            <div class="text-white">
-                                <span class="align-top fs-4 fw-bold">$</span>
-                                <h1 class="d-inline display-6 text-dark mb-0"> 49.99</h1>
-                                <span class="align-baseline">/ Month</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between mb-3"><span>HTML5 & CSS3</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Bootstrap v5</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Responsive Layout</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Cross-browser Support</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Remove Author's Credit</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>PHP & Ajax Contact Form</span><i
-                                    class="fa fa-times text-danger pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>6 Months Free Support</span><i
-                                    class="fa fa-times text-danger pt-1"></i></div>
-                            <a href="" class="btn btn-primary rounded-pill py-2 px-4 mt-3">Get Started</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="price-item rounded overflow-hidden">
-                        <div class="bg-dark p-4">
-                            <h4 class="text-white mt-2">Ultimate</h4>
-                            <div class="text-white">
-                                <span class="align-top fs-4 fw-bold">$</span>
-                                <h1 class="d-inline display-6 text-primary mb-0"> 79.99</h1>
-                                <span class="align-baseline">/ Month</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between mb-3"><span>HTML5 & CSS3</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Bootstrap v5</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Responsive Layout</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Cross-browser Support</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Remove Author's Credit</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>PHP & Ajax Contact Form</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>6 Months Free Support</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <a href="" class="btn btn-dark rounded-pill py-2 px-4 mt-3">Get Started</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Pricing End -->
-
-
-    <!-- Testimonial Start -->
-    <div class="container-xxl py-5" id="about">
-        <div class="container py-5 px-lg-5">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <h5 class="text-primary-gradient fw-medium">About App</h5>
-                    <h1 class="mb-4">#1 App For Your Fitness</h1>
-                    <p class="mb-4">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat
-                        ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo eirmod magna dolore erat
-                        amet</p>
-                    <div class="row g-4 mb-4">
-                        <div class="col-sm-6 wow fadeIn" data-wow-delay="0.5s">
-                            <div class="d-flex">
-                                <i class="fa fa-cogs fa-2x text-primary-gradient flex-shrink-0 mt-1"></i>
-                                <div class="ms-3">
-                                    <h2 class="mb-0" data-toggle="counter-up">1234</h2>
-                                    <p class="text-primary-gradient mb-0">Active Install</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 wow fadeIn" data-wow-delay="0.7s">
-                            <div class="d-flex">
-                                <i class="fa fa-comments fa-2x text-secondary-gradient flex-shrink-0 mt-1"></i>
-                                <div class="ms-3">
-                                    <h2 class="mb-0" data-toggle="counter-up">1234</h2>
-                                    <p class="text-secondary-gradient mb-0">Clients Reviews</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="" class="btn btn-primary-gradient py-sm-3 px-4 px-sm-5 rounded-pill mt-3">Read More</a>
-                </div>
-                <div class="col-lg-6">
-                    <img class="img-fluid wow fadeInUp" data-wow-delay="0.5s" src="img/about.png">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Testimonial End -->
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-body footer wow fadeIn" data-wow-delay="0.1s">
+    <div class="container-fluid bg-dark text-body footer wow fadeIn" data-wow-delay="0.01s" id="contact">
         <div class="container py-5 px-lg-5 text-white " style="font-family:'Poppins', sans-seriff;">
             <div class="row g-5">
                 <div class="col-md-8 col-lg-4">
