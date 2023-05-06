@@ -30,7 +30,6 @@
                         $('input[name="date"]').val(data.date)
                         $('textarea[name="result_summarization"]').focus();
 
-
                     $.ajax({
                         type: "POST",            // HTTP method type(GET, POST) 형식이다.
                         url: "/board/comments/",      // 컨트롤러에서 대기중인 URL 주소이다.
@@ -129,6 +128,7 @@
                     <a href="#home" class="nav-item nav-link active">Home</a>
                     <a href="#summary" class="nav-item nav-link">Summary</a>
                     <a href="#history" class="nav-item nav-link">History</a>
+                    {% comment %} <a href="{% url 'board:history_request_ajax' %}" class="nav-item nav-link">History</a> {% endcomment %}
                     <a href="#contact" class="nav-item nav-link">Contact</a>
                 </div>
                 {% if request.user.is_authenticated == False %}

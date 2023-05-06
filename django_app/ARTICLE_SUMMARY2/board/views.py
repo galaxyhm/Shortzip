@@ -207,6 +207,11 @@ def text_summarizae_request_ajax(request):
     }
     # if data['url'] :
     return JsonResponse(r.json())
+
+
+# def history_request_ajax(request):
+#     return render(request, 'board/history.html')
+
      
     
 def ajax_test(request) :
