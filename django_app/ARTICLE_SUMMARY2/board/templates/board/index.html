@@ -39,16 +39,19 @@
                             dataType: 'json',            // Json 형식의 데이터이다.
                             success: function (data) { // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
                                console.log(data.comments.length)
-                                for(i=0;i<data.comments.length;i++)
+                                for(i=0;i<data.comments.length;i++){
                                     console.log(data.comments[i]);
-                                // comments[i]의 data type dictionary
-                                // 딕셔너리 안 속성과 값형태
-                                // antipathyCount : integer
-                                // contents : string
-                                // sympathyCount : integer
-                                // userName:
-                                // emotion : 0 은 부정 1은 긍정
-                                // emotion_value : float 0~1 사이의 값
+                                    // comments[i]의 data type dictionary
+                                    // 딕셔너리 안 속성과 값형태
+                                    // antipathyCount : integer
+                                    // contents : string
+                                    // sympathyCount : integer
+                                    // userName: string
+                                    // emotion : 0 은 부정 1은 긍정
+                                    // emotion_value : float 0~1 사이의 값
+                                    
+                                    
+                                }
 
 
                             },
@@ -124,7 +127,7 @@
                 <div class="navbar-nav mx-auto">
                     <a href="#home" class="nav-item nav-link active">Home</a>
                     <a href="#summary" class="nav-item nav-link">Summary</a>
-                    <a href="#history" class="nav-item nav-link">History</a>
+                    <a href="{% url 'board:history_request_ajax' %}" class="nav-item nav-link">History</a>
                     <a href="#contact" class="nav-item nav-link">Contact</a>
                 </div>
                 {% if request.user.is_authenticated == False %}
