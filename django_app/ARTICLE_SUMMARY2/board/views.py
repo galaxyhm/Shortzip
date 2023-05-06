@@ -169,11 +169,11 @@ def news_comments_request_ajax(request):
     
 
     # for comment in crawl_comment_list:
-    #     comments_object.username = comment['userName']
-    #     comments_object.contents = comment['contents']
-    #     comments_object.sympathyCount = comment['sympathyCount']
-    #     comments_object.antipathyCount = comment['antipathyCount']
-    #     comments_object.save()
+        # comments_object.username = comment['userName']
+        # comments_object.contents = comment['contents']
+        # comments_object.sympathyCount = comment['sympathyCount']
+        # comments_object.antipathyCount = comment['antipathyCount']
+        # comments_object.save()
 
 
     # 프론트 엔드 테스트 할 수 있는 코드
