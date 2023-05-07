@@ -196,8 +196,8 @@ class NewsCrawler:
             temp_dict = {
                 'userName' : username,
                 'contents' : contents,
-                'sympathyCount' : sympathyCount,
-                'antipathyCount' : antipathyCount,
+                'sympathyCount' : int(sympathyCount),
+                'antipathyCount' : int(antipathyCount),
 
             }
             tot_comment_list.append(temp_dict)
