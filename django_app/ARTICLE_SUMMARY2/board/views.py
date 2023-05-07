@@ -128,7 +128,7 @@ def news_summarizae_request_ajax(request):
     request_body = json.dumps(request_body)
     print(len(crawl_data_dict['text']))
     request_summarize = requests.post('http://13.208.62.74:8908/summarize/text/', data=request_body)
-    if request_summarize.status_code != 200 :
+    if request_summarize.status_code != 200:
         pass
     json_data = request_summarize.json()['message'][0].get('summary_text').strip()
     news_article.summary = json_data
@@ -178,6 +178,7 @@ def news_comments_request_ajax(request):
 
     r = requests.post('http://13.208.62.74:8908/emotion/text/', data=json.dumps({'comments': crawl_comment_list}))
     json_data = r.json()
+
 
 
 
