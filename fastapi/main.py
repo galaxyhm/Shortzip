@@ -95,13 +95,20 @@ async def summarize_text(text: TextItem):
 async def emotion_text(received_comment: CommentList):
     only_comment_list = []
     received_json = received_comment.dict()
-    print(received_json['comments'][1])
+    positive_num = 0
     for i in received_json['comments']:
         only_comment_list.append(i['contents'])
     classifier_values = binary_model.classifier(only_comment_list)
     for i in range(len(received_json['comments'])):
         received_json['comments'][i]['emotion'] = classifier_values[i]['label']
         received_json['comments'][i]['emotion_value'] = classifier_values[i]['score']
+        if classifier_values[i]['label'] == '1':
+            positive_num += 1
+
+    positive_ratio = positive_num / len(received_json['comments'])
+    negative_ratio = 1 - positive_ratio
+    received_json['whole_emotion_positive_ratio'] = positive_ratio
+    received_json['whole_emotion_negative_ratio'] = negative_ratio
 
     return received_json
 
