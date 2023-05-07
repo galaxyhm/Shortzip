@@ -176,7 +176,7 @@ def news_comments_request_ajax(request):
         # comments_object.save()
 
 
-    r = requests.post('http://localhost:8908/emotion/text/', data=json.dumps({'comments': crawl_comment_list}))
+    r = requests.post('http://13.208.62.74:8908/emotion/text/', data=json.dumps({'comments': crawl_comment_list}))
     json_data = r.json()
 
 
