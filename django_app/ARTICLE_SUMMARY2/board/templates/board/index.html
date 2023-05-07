@@ -39,34 +39,7 @@
                         $('input[name="date"]').val(data.date)
                         $('textarea[name="result_summarization"]').focus();
 
-<<<<<<< HEAD
-                        // comments
-                        $.ajax({
-                            type: "POST",            // HTTP method type(GET, POST) 형식이다.
-                            url: "/board/comments/",      // 컨트롤러에서 대기중인 URL 주소이다.
-                            data: params,
-                            contentType: 'application/json; charset=UTF-8',
-                            dataType: 'json',            // Json 형식의 데이터이다.
-                            success: function (data) { // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
-                               console.log(data.comments.length)
-                                for(i=0;i<data.comments.length;i++)
-                                    console.log(data.comments[i]);
-                                // comments[i]의 data type dictionary
-                                // 딕셔너리 안 속성과 값형태
-                                // antipathyCount : integer
-                                // contents : string
-                                // sympathyCount : integer
-                                // userName:
-                                // emotion : 0 은 부정 1은 긍정
-                                // emotion_value : float 0~1 사이의 값
 
-
-                            },
-                            error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
-                                // alert("통신 실패.")
-                            },
-                        });
-=======
                     $.ajax({
                         type: "POST",            // HTTP method type(GET, POST) 형식이다.
                         url: "/board/comments/",      // 컨트롤러에서 대기중인 URL 주소이다.
@@ -74,7 +47,11 @@
                         contentType: 'application/json; charset=UTF-8',
                         dataType: 'json',            // Json 형식의 데이터이다.
                         success: function (data) { // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
-                            var comments = data.comments; // 받아온 댓글 데이터 
+                            {# 테스트 코드 감정 분석 결과 출력#}
+                            console.log(data.whole_emotion_positive_ratio)
+                            console.log(data.whole_emotion_negative_ratio)
+
+                            var comments = data.comments; // 받아온 댓글 데이터
                             var container = $('#comments-container'); // 댓글 컨테이너 요소
                             for (var i = 0; i < 1; i++) {
                                 if (comments < 5) {
@@ -108,7 +85,6 @@
                             // alert("통신 실패.")
                         },
                     });
->>>>>>> master
                     },
 
                     error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
