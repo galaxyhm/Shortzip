@@ -6,9 +6,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            //url_input 값 변경 시 이벤트 리스너 추가 
+            $('input[name="url_input"]').on("input", function() {
+                // url_button 활성화
+                $('button[name="url_button"]').prop('disabled', false);
+            });
 
             $(document).on("click", "button[name='url_button']", function () {
-
+                // 기존 댓글 삭제 
+                $("#commments-container").empty();
+                //url_button 비활성화
+                $(this).prop('disabled', true);
+                
                 // json 형식으로 데이터 set
                 var params = JSON.stringify({
                     url: $('input[name="url_input"]').val()
@@ -39,21 +48,33 @@
                         success: function (data) { // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
                             var comments = data.comments; // 받아온 댓글 데이터 
                             var container = $('#comments-container'); // 댓글 컨테이너 요소
-                            if (comments < 5) {
-                                alert("There are not enough comments.")
-                            }else {
-                                for(var i = 0; i < 5; i++) {
-                                    var comment = comments[i];
-                                    var userName = comment.userName;
-                                    var contents = comment.contents;
-                                    // 댓글 요소 생성 
-                                    var commentElement = $('<div class="comment; form-control" style="background-color:transparent;border:none"><p class="userName"></p><p class="contents"></p></div>');
-                                    commentElement.find('.userName').text(userName);
-                                    commentElement.find('.contents').text(contents);
-                                    // 댓글 컨테이너에 삽입
-                                    container.append(commentElement);
+                            for (var i = 0; i < 1; i++) {
+                                if (comments < 5) {
+                                    alert("There are not enough comments.")
+                                }else {
+                                    for(var j = 0; j < 5; j++) {
+                                        var comment = comments[j];
+                                        var userName = comment.userName;
+                                        var contents = comment.contents;
+                                        // 댓글 요소 생성 
+                                        var commentElement = $('<div class="comment; form-control" style="background-color:transparent;border:none"><p class="userName"></p><p class="contents"></p></div>');
+                                        commentElement.find('.userName').text(userName);
+                                        commentElement.find('.contents').text(contents);
+                                        // 댓글 컨테이너에 삽입
+                                        container.append(commentElement);
+                                    }
                                 }
                             }
+
+                            // for(var i = 0; i < comments.length; i++) {
+                            //    var comment = comments[i];
+                            //    var emotion = comment.emotion;
+                                // 감정 분석 요소 생성 
+                            //    var commentEmotion = $('<div class="comment; form-control;" style="background-color:transparent;border:none"><p class="emotion"></p></div>')
+                            //    commentEmotion.find('.emotion').text(parseInt(emotion));
+                                // 감정 분석 컨테이너에 삽입 
+                            //    container_emotion.append(commentEmotion);
+                            //}
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
                             // alert("통신 실패.")
@@ -67,6 +88,24 @@
                 });
             });
         });
+
+    // 다중 클릭 방지 
+    var doubleSubmitFlag = false;
+    function doubleSubmitCheck(){
+        if(doubleSubmitFlag){
+            return doubleSubmitFlag;
+        }else{
+            doubleSubmitFlag = true;
+            return false;
+        }
+    }
+    function insert(){
+        if(doubleSubmitCheck()) return;
+ 
+        alert("Summarizing...");
+    }
+    //
+    
 
     </script>
 
@@ -158,7 +197,7 @@
                             <input name="url_input" class="form-control border-0 rounded-pill w-100 ps-4 pe-5"
                                    type="text" placeholder="URL" style="height: 58px;">
 
-                            <button type="button" name="url_button" id='url_button'
+                            <button type="button" name="url_button" id='url_button' onclick="insert();"
                                     class="btn btn-primary-gradient rounded-pill py-2 px-3 shadow-none position-absolute top-0 end-0 m-2"
                                     style="font-family: 'Poppins', sans-serif;"
                             >Summary
@@ -248,18 +287,9 @@
             <div class="row g-5" style="margin-bottom:200px">
                 <div class="col-lg-6 mx-auto wow fadeInUp" data-wow-delay="0.5s" style="width:70%">
                     <h2 class="mb-4 text-primary-gradient flex-shrink-0" style="font-family: 'Poppins', sans-serif;">Comments</h2>
-                    <p class="mb-4">Shows the top 5 comments with the most empathy.</p> 
-                    <form style="font-family: 'Poppins', sans-serif; height: 700px;background-color:transparent;border:none">
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <div id="comments-container"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    <p class="mb-4">After collecting the number of comments up to 100, it displays a percentage based on whether people's reactions to the issue are positive or negative. </p> 
+                    <p class="mb-4"> And below, it shows the top 5 comments with the most empathy.</p>
                     <div class="row g-4 mb-4">
-                        <h3></h3>
                         <div class="col-sm-6 wow fadeIn" data-wow-delay="0.5s">
                             <div class="d-flex">
                                 <i class="fa fa-smile fa-2x text-primary-gradient flex-shrink-0"></i>
@@ -279,6 +309,25 @@
                             </div>
                         </div>
                     </div>
+                    <form style="font-family: 'Poppins', sans-serif;background-color:transparent;border:none">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <div id="comments-container"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% comment %} <form style="font-family: 'Poppins', sans-serif;background-color:transparent;border:none">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <div id="comments-container"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form> {% endcomment %}
                 </div>
             </div>
         </div>
@@ -287,7 +336,7 @@
     <!-- Comments End -->
 
 
-    <!-- Footer Start -->
+    <!-- Contact Start -->
     <div class="container-fluid bg-dark text-body footer wow fadeIn" data-wow-delay="0.01s" id="contact">
         <div class="container py-5 px-lg-5 text-white " style="font-family:'Poppins', sans-seriff;">
             <div class="row g-5">
@@ -300,10 +349,6 @@
                     <a class="btn btn-outline-light btn-social" href="https://github.com/galaxyhm/usingcloud_final"><i
                             class="fab fa-github"></i></a>
                     <div class="">
-                        {% comment %}<input class="form-control border-0 rounded-pill w-100 ps-4 pe-5" type="text"
-                                            placeholder="Your Email" style="height: 48px;">
-                            <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-1 me-2"><i
-                                    class="fa fa-paper-plane text-primary fs-4"></i></button> {% endcomment %}
                     </div>
                 </div>
                 <div class="col-md-8 col-lg-3">
@@ -317,7 +362,6 @@
                         Hub 문서요약 텍스트</a>
                     <a class="btn btn-link-FinetunedKobart text-white"
                        href="https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data">fine-tuned KoBART</a>
-                    {% comment %} <a class="btn btn-link" href="">Support</a> {% endcomment %}
                 </div>
                 <div class="col-md-8 col-lg-4">
                     <p class="section-title text-white h4 mb-4">Address<span></span></p>
@@ -333,19 +377,7 @@
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                {% comment %}
-                    <div class="col-md-8 col-lg-3">
-                        <p class="section-title text-white h5 mb-4">Address<span></span></p>
-                        <p><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                        <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                        <p><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                        <div class="d-flex pt-2">
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div> {% endcomment %}
+
             </div>
         </div>
         <div class="container px-lg-5">
@@ -360,16 +392,13 @@
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">
                             <a href="">Main</a>
-                            {% comment %} <a href="">Cookies</a>
-                                <a href="">Help</a>
-                                <a href="">FQAs</a> {% endcomment %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Footer End -->
+    <!-- Contact End -->
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
