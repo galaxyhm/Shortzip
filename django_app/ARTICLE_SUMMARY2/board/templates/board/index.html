@@ -127,8 +127,8 @@
                 <div class="navbar-nav mx-auto">
                     <a href="#home" class="nav-item nav-link active">Home</a>
                     <a href="#summary" class="nav-item nav-link">Summary</a>
-                    <a href="#history" class="nav-item nav-link">History</a>
-                    {% comment %} <a href="{% url 'board:history_request_ajax' %}" class="nav-item nav-link">History</a> {% endcomment %}
+                    {% comment %} <a href="#history" class="nav-item nav-link">History</a> {% endcomment %}
+                    <a href="{% url 'board:history_request_ajax' %}" class="nav-item nav-link">History</a>
                     <a href="#contact" class="nav-item nav-link">Contact</a>
                 </div>
                 {% if request.user.is_authenticated == False %}
@@ -225,7 +225,7 @@
                                 <div data-zanim-xs="{&quot;delay&quot;:0.2}"
                                      style="transform: translate(0px, 0px); opacity: 1;">
                                     <a class="d-flex align-items-center" style="font-family: 'Poppins', sans-serif;"
-                                       href="#!">history
+                                       href="{% url 'board:history_request_ajax' %}">history
                                         <div class="overflow-hidden ms-2">
                                             <span class="d-inline-block" style="transform: translate(0px, 0px); opacity: 1;">⟶
                                             </span>
