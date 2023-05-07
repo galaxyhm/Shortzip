@@ -181,6 +181,7 @@ def news_comments_request_ajax(request):
 
 
 
+
     # 프론트 엔드 테스트 할 수 있는 코드
     # for i in range(len(crawl_comment_list)) :
     #     crawl_comment_list[i]['emotion'] = random.randrange(0, 2)
