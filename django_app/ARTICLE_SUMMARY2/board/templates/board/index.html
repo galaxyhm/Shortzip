@@ -30,7 +30,7 @@
                         $('input[name="date"]').val(data.date)
                         $('textarea[name="result_summarization"]').focus();
 
-
+                        // comments
                         $.ajax({
                             type: "POST",            // HTTP method type(GET, POST) 형식이다.
                             url: "/board/comments/",      // 컨트롤러에서 대기중인 URL 주소이다.

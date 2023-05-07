@@ -167,7 +167,7 @@ def news_comments_request_ajax(request):
     # crawl_comment_dict = dict()
     # crawl_comment_dict['comments_data'] = crawl_comment_list
     
-
+    #  DB에 저장및 조회 할 수 있는 코드 보류
     # for comment in crawl_comment_list:
     #     comments_object.username = comment['userName']
     #     comments_object.contents = comment['contents']
@@ -176,16 +176,16 @@ def news_comments_request_ajax(request):
     #     comments_object.save()
 
 
-    # 프론트 엔드 테스트 할 수 있는 코드
-    for i in range(len(crawl_comment_list)) :
-        crawl_comment_list[i]['emotion'] = random.randrange(0, 2)
-        crawl_comment_list[i]['emotion_value'] = random.random()
+    r = requests.post('http://localhost:8908/emotion/text/', data=json.dumps({'comments': crawl_comment_list}))
+    json_data = r.json()
 
-    return JsonResponse(
-        {
-            'comments' : crawl_comment_list
-        }
-    )
+
+    # 프론트 엔드 테스트 할 수 있는 코드
+    # for i in range(len(crawl_comment_list)) :
+    #     crawl_comment_list[i]['emotion'] = random.randrange(0, 2)
+    #     crawl_comment_list[i]['emotion_value'] = random.random()
+
+    return JsonResponse(json_data)
 
 
 
@@ -199,6 +199,9 @@ def text_summarizae_request_ajax(request):
     }
     jsonData = json.dumps(cond)
     r = requests.post('http://localhost:10000/crawl/naver/', data=jsonData)
+    json_data = r.json()
+
+    print(json_data)
     print(r.status_code)
     # print(r.json())
     # data = json.loads(m.body)
