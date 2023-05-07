@@ -181,6 +181,7 @@ def news_comments_request_ajax(request):
         crawl_comment_list[i]['emotion'] = random.randrange(0, 2)
         crawl_comment_list[i]['emotion_value'] = random.random()
 
+
     return JsonResponse(
         {
             'comments' : crawl_comment_list
