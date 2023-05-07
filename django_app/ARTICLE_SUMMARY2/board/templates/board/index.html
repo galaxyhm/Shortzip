@@ -15,6 +15,9 @@
             $(document).on("click", "button[name='url_button']", function () {
                 // 기존 댓글 삭제 
                 $("#comments-container").empty();
+                // 기존 긍, 부정 비율 삭제
+                $('input[name="positive_ratio"]').empty();
+                $('input[name="negative_ratio"]').empty();
                 //url_button 비활성화
                 $(this).prop('disabled', true);
 
@@ -75,16 +78,6 @@
                                     }
                                 }
                             }
-
-                            // for(var i = 0; i < comments.length; i++) {
-                            //    var comment = comments[i];
-                            //    var emotion = comment.emotion;
-                                // 감정 분석 요소 생성 
-                            //    var commentEmotion = $('<div class="comment; form-control;" style="background-color:transparent;border:none"><p class="emotion"></p></div>')
-                            //    commentEmotion.find('.emotion').text(parseInt(emotion));
-                                // 감정 분석 컨테이너에 삽입 
-                            //    container_emotion.append(commentEmotion);
-                            //}
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
                             // alert("통신 실패.")
@@ -304,7 +297,6 @@
                                 <div class="ms-3">
                                     <input type="text" id="positive_ratio" name="positive_ratio" 
                                     style="background-color:transparent;border:none" disabled>
-                                    {% comment %} <h2 class="mb-0" data-toggle="counter-up">1234</h2> {% endcomment %}
                                     <p class="text-primary-gradient mb-0">Positive</p>
                                 </div>
                             </div>
@@ -315,7 +307,6 @@
                                 <div class="ms-3">
                                     <input type="text" id="negative_ratio" name="negative_ratio" 
                                     style="background-color:transparent;border:none" disabled>
-                                    {% comment %} <h2 class="mb-0" data-toggle="counter-up">1234</h2> {% endcomment %}
                                     <p class="text-secondary-gradient mb-0">Negative</p>
                                 </div>
                             </div>
@@ -330,16 +321,6 @@
                             </div>
                         </div>
                     </form>
-
-                    {% comment %} <form style="font-family: 'Poppins', sans-serif;background-color:transparent;border:none">
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <div id="comments-container"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </form> {% endcomment %}
                 </div>
             </div>
         </div>
