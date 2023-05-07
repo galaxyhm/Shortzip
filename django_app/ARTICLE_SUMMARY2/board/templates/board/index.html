@@ -48,8 +48,13 @@
                         dataType: 'json',            // Json 형식의 데이터이다.
                         success: function (data) { // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
                             {# 테스트 코드 감정 분석 결과 출력#}
-                            console.log(data.whole_emotion_positive_ratio)
-                            console.log(data.whole_emotion_negative_ratio)
+                            console.log(data.whole_emotion_positive_ratio);
+                            console.log(data.whole_emotion_negative_ratio);
+                            var positive_ratio = ((data.whole_emotion_positive_ratio) * 100).toFixed(2) + "%";
+                            var negative_ratio = ((data.whole_emotion_negative_ratio) * 100).toFixed(2) + "%";
+                            $('input[name="positive_ratio"]').val(positive_ratio);
+                            $('input[name="negative_ratio"]').val(negative_ratio);
+
 
                             var comments = data.comments; // 받아온 댓글 데이터
                             var container = $('#comments-container'); // 댓글 컨테이너 요소
@@ -297,7 +302,9 @@
                             <div class="d-flex">
                                 <i class="fa fa-smile fa-2x text-primary-gradient flex-shrink-0"></i>
                                 <div class="ms-3">
-                                    <h2 class="mb-0" data-toggle="counter-up">1234</h2>
+                                    <input type="text" id="positive_ratio" name="positive_ratio" 
+                                    style="background-color:transparent;border:none" disabled>
+                                    {% comment %} <h2 class="mb-0" data-toggle="counter-up">1234</h2> {% endcomment %}
                                     <p class="text-primary-gradient mb-0">Positive</p>
                                 </div>
                             </div>
@@ -306,7 +313,9 @@
                             <div class="d-flex">
                                 <i class="fa fa-frown fa-2x text-secondary-gradient flex-shrink-0"></i>
                                 <div class="ms-3">
-                                    <h2 class="mb-0" data-toggle="counter-up">1234</h2>
+                                    <input type="text" id="negative_ratio" name="negative_ratio" 
+                                    style="background-color:transparent;border:none" disabled>
+                                    {% comment %} <h2 class="mb-0" data-toggle="counter-up">1234</h2> {% endcomment %}
                                     <p class="text-secondary-gradient mb-0">Negative</p>
                                 </div>
                             </div>
