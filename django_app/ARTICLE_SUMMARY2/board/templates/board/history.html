@@ -48,41 +48,21 @@
 
     <!-- Navbar & Hero Start -->
     <div class="container-xxl position-relative p-0" data-wow-delay="0.01s" id="home">
-        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
-            <a href="" class="navbar-brand p-0">
-                <h1 class="m-0" style="font-family: 'Poppins', sans-serif;">ShortZip</h1>
-            </a>
-            <button class="navbar-toggler rounded-pill" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav mx-auto">
-                    <a href="{% url 'board:index' %}" class="nav-item nav-link active">Home</a>
-                    <a href="{% url 'board:index' %}" class="nav-item nav-link">Summary</a>
-                    <a href="{% url 'board:history_request_ajax' %}" class="nav-item nav-link">History</a>
-                    <a href="#contact" class="nav-item nav-link">Contact</a>
-                </div>
-                {% if request.user.is_authenticated == False %}
-                    <a href="{% url 'accounts:login' %}"
-                       class="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block"
-                       style="font-family: 'Poppins', sans-serif;">LOG IN</a>
-                    <a href="{% url 'accounts:signup' %}"
-                       class="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block"
-                       style="font-family: 'Poppins', sans-serif;">SIGN UP</a>
-                {% else %}
-                    <a href="{% url 'accounts:logout' %}"
-                       class="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block"
-                       style="font-family: 'Poppins', sans-serif;">LOG OUT</a>
-                {% endif %}
-            </div>
-        </nav>
         <div class="container-xxl bg-primary hero-header" style="height: 750px">
             <div class="container">
                 <div class="row g-5 align-items-center" style="justify-content: center;height:200px">
                     <div class="col-lg-6 text-center text-lg-start" style="color:#FFFFFF; width:70%">
                         <h3 class="text-white mb-4 animated slideInDown"
-                            style="text-align:center;font-family: 'Poppins', sans-serif;">Preparing the service. Please be patient!</h3>
+                            style="text-align:center;font-family: 'Poppins', sans-serif;">Preparing the service. Please be patient.</h3>
+                        <h3 class="text-white mb-4 animated slideInDown"
+                        style="text-align:center;font-family: 'Poppins', sans-serif;">Back to Home!</h3>
+                        <div class="overflow-hidden">
+                            <div data-zanim-xs="{&quot;delay&quot;:0.2}" style="text-align:center">
+                                <a class="display:block" style="color:#FFFFFF;font-family: 'Poppins', sans-serif;text-align:center"
+                                   href="{% url 'board:index' %}">Click ⟶
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 </div>
@@ -93,94 +73,6 @@
 <!-- Navbar & Hero End -->
 
 
-<!-- summary Start -->
-{% comment %} 결과창 {% endcomment %}
-<div class="container-xxl py-6" data-wow-delay="0.01s" id="summary">
-    <div class="container">
-        <div class="row g-5" style="margin-top:150px">
-        </div>
-    </div>
-
-    <!-- Overview End -->
-
-
-
-    <!-- Contact Start -->
-    <div class="container-fluid bg-dark text-body footer wow fadeIn" data-wow-delay="0.01s" id="contact">
-        <div class="container py-5 px-lg-5 text-white " style="font-family:'Poppins', sans-seriff;">
-            <div class="row g-5">
-                <div class="col-md-8 col-lg-4">
-                    <p class="section-title text-white h4 mb-4">ShortZip<span></span></p>
-                    <p style="font-family:'Poppins', sans-serif">Want to summarize a specific news story of interest?
-                        Just give me the URL and I’ll summarize it for you! You can refer to the following Github for
-                        more information.
-                    </p>
-                    <a class="btn btn-outline-light btn-social" href="https://github.com/galaxyhm/usingcloud_final"><i
-                            class="fab fa-github"></i></a>
-                    <div class="">
-                    </div>
-                </div>
-                <div class="col-md-8 col-lg-3">
-                    <p class="section-title text-white h4 mb-4">Reference<span></span></p>
-                    <a class="btn btn-link-SktKobart text-white"
-                       href="https://github.com/SKT-AI/KoBART">SKT-AI/KoBART</a>
-                    <a class="btn btn-link-HuggingGogamza text-white"
-                       href="https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data">gogamza/KoBART-base-v2</a>
-                    <a class="btn btn-link-AihubDocsummarizationText text-white"
-                       href="https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=97">AI
-                        Hub 문서요약 텍스트</a>
-                    <a class="btn btn-link-FinetunedKobart text-white"
-                       href="https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data">fine-tuned KoBART</a>
-                </div>
-                <div class="col-md-8 col-lg-4">
-                    <p class="section-title text-white h4 mb-4">Contact<span></span></p>
-                    <div>{% comment %} 현민 git 주소 {% endcomment %}
-                        <a class="btn btn-link-hm text-white"
-                            href="https://github.com/galaxyhm">
-                        <i class="fa fa-solid fa-rocket me-3"></i>github/galaxyhm</a>
-                    </div>
-                    <div>{% comment %} 도원 git 주소 {% endcomment %}
-                        <a class="btn btn-link-dw text-white"
-                            href="https://github.com/CatSaveTheWorld">
-                        <i class="fa fa-solid fa-dog me-3"></i>github/CatSaveTheWorld</a>
-                    </div>
-                    <div>{% comment %} 화정 git 주소 {% endcomment %}
-                        <a class="btn btn-link-hj text-white"
-                            href="https://github.com/hwajlee">
-                        <i class="fa fa-solid fa-cat me-3"></i>github/hwajlee</a>
-                    </div>
-                    <div>{% comment %} 지원 git 주소 {% endcomment %}
-                        <a class="btn btn-link-jw text-white"
-                            href="https://github.com/easyone93">
-                        <i class="fa fa-solid fa-server me-3"></i>github/easyone93</a>
-                    </div>
-                    <div>{% comment %} 영재 git 주소 {% endcomment %}
-                        <a class="btn btn-link-yj text-white"
-                            href="https://github.com/derella-00">
-                        <i class="fab fa-brands fa-apple me-3"></i>github/derella-00</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container px-lg-5">
-            <div class="copyright">
-                <div class="row">
-                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="#">ShortZip</a>, All Right Reserved.
-                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
-                        <br>Distributed By: <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
-                    </div>
-                    <div class="col-md-6 text-center text-md-end">
-                        <div class="footer-menu">
-                            <a href="">Main</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Contact End -->
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
