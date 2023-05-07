@@ -505,15 +505,3 @@ body {
     padding-right: 0;
     border-right: none;
 }
-
-.body {
-    font-family: 'Poppins', sans-serif;
-}
-
-form {
-    height: 100%
-}
-
-#comments-container, #comments-contatiner * {
-    height: 100%
-}

@@ -6,8 +6,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            //url_input 값 변경 시 이벤트 리스너 추가 
+            $('input[name="url_input"]').on("input", function() {
+                // url_button 활성화
+                $('button[name="url_button"]').prop('disabled', false);
+            });
 
             $(document).on("click", "button[name='url_button']", function () {
+                // 기존 댓글 삭제 
+                $("#comments-container").empty();
+                //url_button 비활성화
+                $(this).prop('disabled', true);
 
                 // json 형식으로 데이터 set
                 var params = JSON.stringify({
@@ -30,6 +39,7 @@
                         $('input[name="date"]').val(data.date)
                         $('textarea[name="result_summarization"]').focus();
 
+<<<<<<< HEAD
                         // comments
                         $.ajax({
                             type: "POST",            // HTTP method type(GET, POST) 형식이다.
@@ -56,6 +66,49 @@
                                 // alert("통신 실패.")
                             },
                         });
+=======
+                    $.ajax({
+                        type: "POST",            // HTTP method type(GET, POST) 형식이다.
+                        url: "/board/comments/",      // 컨트롤러에서 대기중인 URL 주소이다.
+                        data: params,
+                        contentType: 'application/json; charset=UTF-8',
+                        dataType: 'json',            // Json 형식의 데이터이다.
+                        success: function (data) { // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+                            var comments = data.comments; // 받아온 댓글 데이터 
+                            var container = $('#comments-container'); // 댓글 컨테이너 요소
+                            for (var i = 0; i < 1; i++) {
+                                if (comments < 5) {
+                                    alert("There are not enough comments.")
+                                }else {
+                                    for(var j = 0; j < 5; j++) {
+                                        var comment = comments[j];
+                                        var userName = comment.userName;
+                                        var contents = comment.contents;
+                                        // 댓글 요소 생성 
+                                        var commentElement = $('<div class="comment; form-control" style="background-color:transparent;border:none"><p class="userName"></p><p class="contents"></p></div>');
+                                        commentElement.find('.userName').text(userName);
+                                        commentElement.find('.contents').text(contents);
+                                        // 댓글 컨테이너에 삽입
+                                        container.append(commentElement);
+                                    }
+                                }
+                            }
+
+                            // for(var i = 0; i < comments.length; i++) {
+                            //    var comment = comments[i];
+                            //    var emotion = comment.emotion;
+                                // 감정 분석 요소 생성 
+                            //    var commentEmotion = $('<div class="comment; form-control;" style="background-color:transparent;border:none"><p class="emotion"></p></div>')
+                            //    commentEmotion.find('.emotion').text(parseInt(emotion));
+                                // 감정 분석 컨테이너에 삽입 
+                            //    container_emotion.append(commentEmotion);
+                            //}
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                            // alert("통신 실패.")
+                        },
+                    });
+>>>>>>> master
                     },
 
                     error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
@@ -64,6 +117,24 @@
                 });
             });
         });
+
+    // 다중 클릭 방지 
+    var doubleSubmitFlag = false;
+    function doubleSubmitCheck(){
+        if(doubleSubmitFlag){
+            return doubleSubmitFlag;
+        }else{
+            doubleSubmitFlag = true;
+            return false;
+        }
+    }
+    function insert(){
+        if(doubleSubmitCheck()) return;
+ 
+        alert("Summarizing...");
+    }
+    //
+    
 
     </script>
 
@@ -111,7 +182,7 @@
 
 
     <!-- Navbar & Hero Start -->
-    <div class="container-xxl position-relative p-0" id="home">
+    <div class="container-xxl position-relative p-0" data-wow-delay="0.01s" id="home">
         <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
             <a href="" class="navbar-brand p-0">
                 <h1 class="m-0" style="font-family: 'Poppins', sans-serif;">ShortZip</h1>
@@ -124,7 +195,7 @@
                 <div class="navbar-nav mx-auto">
                     <a href="#home" class="nav-item nav-link active">Home</a>
                     <a href="#summary" class="nav-item nav-link">Summary</a>
-                    <a href="#history" class="nav-item nav-link">History</a>
+                    <a href="{% url 'board:history_request_ajax' %}" class="nav-item nav-link">History</a>
                     <a href="#contact" class="nav-item nav-link">Contact</a>
                 </div>
                 {% if request.user.is_authenticated == False %}
@@ -144,7 +215,7 @@
         <div class="container-xxl bg-primary hero-header" style="height: 750px">
             <div class="container">
                 <div class="row g-5 align-items-center" style="justify-content: center;height:200px">
-                    <div class="col-lg-6 text-center text-lg-start" style="color:#FFFFFF;">
+                    <div class="col-lg-6 text-center text-lg-start" style="color:#FFFFFF; width:70%">
                         <h1 class="text-white mb-4 animated slideInDown"
                             style="text-align:center;font-family: 'Poppins', sans-serif;">URL to summarize</h1>
                         <p class="text-white pb-3 animated slideInDown"
@@ -154,7 +225,7 @@
                             <input name="url_input" class="form-control border-0 rounded-pill w-100 ps-4 pe-5"
                                    type="text" placeholder="URL" style="height: 58px;">
 
-                            <button type="button" name="url_button" id='url_button'
+                            <button type="button" name="url_button" id='url_button' onclick="insert();"
                                     class="btn btn-primary-gradient rounded-pill py-2 px-3 shadow-none position-absolute top-0 end-0 m-2"
                                     style="font-family: 'Poppins', sans-serif;"
                             >Summary
@@ -171,11 +242,11 @@
 
 <!-- summary Start -->
 {% comment %} 결과창 {% endcomment %}
-<div class="container-xxl py-6" id="summary">
+<div class="container-xxl py-6" data-wow-delay="0.01s" id="summary">
     <div class="container">
-        <div class="row g-5">
-            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                <h2 class="mb-4" style="font-family: 'Poppins', sans-serif;">Sum Up</h2>
+        <div class="row g-5" style="margin-top:150px">
+            <div class="col-lg-6 mx-auto wow fadeInUp" data-wow-delay="0.5s" style="width:70%">
+                <h2 class="mb-4 text-primary-gradient flex-shrink-0" style="font-family: 'Poppins', sans-serif;">Sum Up</h2>
                 <form style="font-family: 'Poppins', sans-serif;">
                     <div class="row g-3">
                         <div class="col-12">
@@ -209,23 +280,22 @@
                         </div>
                         <div class="col-12">
                             <div class="form-floating">
-                                            <textarea name="result_summarization" class="form-control"
-                                                      placeholder="Leave a message here" id="message"
-                                                      style="height: 250px;background-color:transparent;border:none"
-                                                      readonly></textarea>
+                                <textarea name="result_summarization" class="form-control"
+                                placeholder="Leave a message here" id="message"
+                                style="height: 150px;background-color:transparent;border:none" readonly>
+                                </textarea>
                                 <label for="result_summarization">Content</label>
                             </div>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12" style="height: 100px">
                             <div class="overflow-hidden">
                                 <div data-zanim-xs="{&quot;delay&quot;:0.2}"
                                      style="transform: translate(0px, 0px); opacity: 1;">
                                     <a class="d-flex align-items-center" style="font-family: 'Poppins', sans-serif;"
-                                       href="#!">history
+                                       href="{% url 'board:history_request_ajax' %}">history
                                         <div class="overflow-hidden ms-2">
-                                                        <span class="d-inline-block"
-                                                              style="transform: translate(0px, 0px); opacity: 1;">⟶
-                                                        </span>
+                                            <span class="d-inline-block" style="transform: translate(0px, 0px); opacity: 1;">⟶
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -234,298 +304,68 @@
                     </div>
                 </form>
             </div>
-
-            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="font-family: 'Poppins', sans-serif;">
-                <h2 class="mb-3" style="font-family: 'Poppins', sans-serif;">Comments</h2>
-                <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with
-                    Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a
-                            href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
-                <div class="d-flex mb-4">
-                    <div class="flex-shrink-0 btn-square rounded-circle bg-primary text-white">
-                        <i class="fa fa-phone-alt"></i>
-                    </div>
-                    <div class="ms-3">
-                        <p class="mb-2">Call Us</p>
-                        <h5 class="mb-0">+012 345 6789</h5>
-                    </div>
-                </div>
-                <div class="d-flex mb-4">
-                    <div class="flex-shrink-0 btn-square rounded-circle bg-primary text-white">
-                        <i class="fa fa-envelope"></i>
-                    </div>
-                    <div class="ms-3">
-                        <p class="mb-2">Mail Us</p>
-                        <h5 class="mb-0">info@example.com</h5>
-                    </div>
-                </div>
-                <div class="d-flex mb-0">
-                    <div class="flex-shrink-0 btn-square rounded-circle bg-primary text-white">
-                        <i class="fa fa-map-marker-alt"></i>
-                    </div>
-                    <div class="ms-3">
-                        <p class="mb-2">Our Office</p>
-                        <h5 class="mb-0">123 Street, New York, USA</h5>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-
 
     <!-- Overview End -->
 
-
-    <!-- Facts Start -->
-    <div class="container-xxl bg-light my-6 py-5" id="overview">
+    <!-- Comments Start -->
+    <div class="container-xxl py-6" id="comments">
         <div class="container">
-            <div class="row g-5 py-5 align-items-center">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <img class="img-fluid rounded" src="img/overview-1.jpg">
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="d-flex align-items-center mb-4">
-                        <h1 class="mb-0">01</h1>
-                        <span class="bg-primary mx-2" style="width: 30px; height: 2px;"></span>
-                        <h5 class="mb-0">App Integration</h5>
-                    </div>
-                    <p class="mb-4">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat
-                        ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo eirmod magna dolore erat
-                        amet</p>
-                    <p><i class="fa fa-check-circle text-primary me-3"></i>Fully customizable</p>
-                    <p><i class="fa fa-check-circle text-primary me-3"></i>User friendly interface</p>
-                    <p class="mb-0"><i class="fa fa-check-circle text-primary me-3"></i>More effective & poerwfull</p>
-                </div>
-            </div>
-            <div class="row g-5 py-5 align-items-center flex-column-reverse flex-lg-row">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="d-flex align-items-center mb-4">
-                        <h1 class="mb-0">02</h1>
-                        <span class="bg-primary mx-2" style="width: 30px; height: 2px;"></span>
-                        <h5 class="mb-0">App Customization</h5>
-                    </div>
-                    <p class="mb-4">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat
-                        ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo eirmod magna dolore erat
-                        amet</p>
-                    <p><i class="fa fa-check-circle text-primary me-3"></i>Fully customizable</p>
-                    <p><i class="fa fa-check-circle text-primary me-3"></i>User friendly interface</p>
-                    <p class="mb-0"><i class="fa fa-check-circle text-primary me-3"></i>More effective & poerwfull</p>
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <img class="img-fluid rounded" src="img/overview-2.jpg">
-                </div>
-            </div>
-            <div class="row g-5 py-5 align-items-center">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <img class="img-fluid rounded" src="img/overview-3.jpg">
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="d-flex align-items-center mb-4">
-                        <h1 class="mb-0">03</h1>
-                        <span class="bg-primary mx-2" style="width: 30px; height: 2px;"></span>
-                        <h5 class="mb-0">App Modification</h5>
-                    </div>
-                    <p class="mb-4">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat
-                        ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo eirmod magna dolore erat
-                        amet</p>
-                    <p><i class="fa fa-check-circle text-primary me-3"></i>Fully customizable</p>
-                    <p><i class="fa fa-check-circle text-primary me-3"></i>User friendly interface</p>
-                    <p class="mb-0"><i class="fa fa-check-circle text-primary me-3"></i>More effective & poerwfull</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Facts End -->
-
-
-    <!-- Process Start -->
-    <div class="container-xxl py-6">
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <img class="img-fluid rounded" src="{% static 'img/process.jpg' %}">
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <h1 class="mb-4">Three Simple Steps To Start Working With</h1>
-                    <p class="mb-4">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat
-                        ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo eirmod magna dolore erat
-                        amet</p>
-                    <ul class="process mb-0">
-                        <li>
-                            <span><i class="fa fa-cog"></i></span>
-                            <div>
-                                <h5>Install the Software</h5>
-                                <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
-                                    eos erat ipsum et lorem et sit</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span><i class="fa fa-address-card"></i></span>
-                            <div>
-                                <h5>Setup Your Profile</h5>
-                                <p>Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et
-                                    sit, sed stet lorem sit clita duo</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span><i class="fa fa-check"></i></span>
-                            <div>
-                                <h5>Enjoy The Features</h5>
-                                <p>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit
-                                    clita duo justo magna</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Process End -->
-
-
-    <!-- Pricing Start -->
-    <div class="container-xxl py-6" id="pricing">
-        <div class="container">
-            <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-                <h1 class="mb-3">Pricing Plan</h1>
-                <p class="mb-5">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat
-                    ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo</p>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="price-item rounded overflow-hidden">
-                        <div class="bg-dark p-4">
-                            <h4 class="text-white mt-2">Standard</h4>
-                            <div class="text-white">
-                                <span class="align-top fs-4 fw-bold">$</span>
-                                <h1 class="d-inline display-6 text-primary mb-0"> 29.99</h1>
-                                <span class="align-baseline">/ Month</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between mb-3"><span>HTML5 & CSS3</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Bootstrap v5</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Responsive Layout</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Cross-browser Support</span><i
-                                    class="fa fa-times text-danger pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Remove Author's Credit</span><i
-                                    class="fa fa-times text-danger pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>PHP & Ajax Contact Form</span><i
-                                    class="fa fa-times text-danger pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>6 Months Free Support</span><i
-                                    class="fa fa-times text-danger pt-1"></i></div>
-                            <a href="" class="btn btn-dark rounded-pill py-2 px-4 mt-3">Get Started</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="price-item rounded overflow-hidden">
-                        <div class="bg-primary p-4">
-                            <h4 class="text-white mt-2">Professional</h4>
-                            <div class="text-white">
-                                <span class="align-top fs-4 fw-bold">$</span>
-                                <h1 class="d-inline display-6 text-dark mb-0"> 49.99</h1>
-                                <span class="align-baseline">/ Month</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between mb-3"><span>HTML5 & CSS3</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Bootstrap v5</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Responsive Layout</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Cross-browser Support</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Remove Author's Credit</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>PHP & Ajax Contact Form</span><i
-                                    class="fa fa-times text-danger pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>6 Months Free Support</span><i
-                                    class="fa fa-times text-danger pt-1"></i></div>
-                            <a href="" class="btn btn-primary rounded-pill py-2 px-4 mt-3">Get Started</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="price-item rounded overflow-hidden">
-                        <div class="bg-dark p-4">
-                            <h4 class="text-white mt-2">Ultimate</h4>
-                            <div class="text-white">
-                                <span class="align-top fs-4 fw-bold">$</span>
-                                <h1 class="d-inline display-6 text-primary mb-0"> 79.99</h1>
-                                <span class="align-baseline">/ Month</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between mb-3"><span>HTML5 & CSS3</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Bootstrap v5</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Responsive Layout</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Cross-browser Support</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Remove Author's Credit</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>PHP & Ajax Contact Form</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>6 Months Free Support</span><i
-                                    class="fa fa-check text-success pt-1"></i></div>
-                            <a href="" class="btn btn-dark rounded-pill py-2 px-4 mt-3">Get Started</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Pricing End -->
-
-
-    <!-- Testimonial Start -->
-    <div class="container-xxl py-5" id="about">
-        <div class="container py-5 px-lg-5">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <h5 class="text-primary-gradient fw-medium">About App</h5>
-                    <h1 class="mb-4">#1 App For Your Fitness</h1>
-                    <p class="mb-4">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat
-                        ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo eirmod magna dolore erat
-                        amet</p>
+            <div class="row g-5" style="margin-bottom:200px">
+                <div class="col-lg-6 mx-auto wow fadeInUp" data-wow-delay="0.5s" style="width:70%">
+                    <h2 class="mb-4 text-primary-gradient flex-shrink-0" style="font-family: 'Poppins', sans-serif;">Comments</h2>
+                    <p class="mb-4">After collecting the number of comments up to 100, it displays a percentage based on whether people's reactions to the issue are positive or negative. </p> 
+                    <p class="mb-4"> And below, it shows the top 5 comments with the most empathy.</p>
                     <div class="row g-4 mb-4">
                         <div class="col-sm-6 wow fadeIn" data-wow-delay="0.5s">
                             <div class="d-flex">
-                                <i class="fa fa-cogs fa-2x text-primary-gradient flex-shrink-0 mt-1"></i>
+                                <i class="fa fa-smile fa-2x text-primary-gradient flex-shrink-0"></i>
                                 <div class="ms-3">
                                     <h2 class="mb-0" data-toggle="counter-up">1234</h2>
-                                    <p class="text-primary-gradient mb-0">Active Install</p>
+                                    <p class="text-primary-gradient mb-0">Positive</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6 wow fadeIn" data-wow-delay="0.7s">
                             <div class="d-flex">
-                                <i class="fa fa-comments fa-2x text-secondary-gradient flex-shrink-0 mt-1"></i>
+                                <i class="fa fa-frown fa-2x text-secondary-gradient flex-shrink-0"></i>
                                 <div class="ms-3">
                                     <h2 class="mb-0" data-toggle="counter-up">1234</h2>
-                                    <p class="text-secondary-gradient mb-0">Clients Reviews</p>
+                                    <p class="text-secondary-gradient mb-0">Negative</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <a href="" class="btn btn-primary-gradient py-sm-3 px-4 px-sm-5 rounded-pill mt-3">Read More</a>
-                </div>
-                <div class="col-lg-6">
-                    <img class="img-fluid wow fadeInUp" data-wow-delay="0.5s" src="img/about.png">
+                    <form style="font-family: 'Poppins', sans-serif;background-color:transparent;border:none">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <div id="comments-container"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% comment %} <form style="font-family: 'Poppins', sans-serif;background-color:transparent;border:none">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <div id="comments-container"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form> {% endcomment %}
                 </div>
             </div>
         </div>
     </div>
-    <!-- Testimonial End -->
 
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-body footer wow fadeIn" data-wow-delay="0.1s">
+    <!-- Comments End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid bg-dark text-body footer wow fadeIn" data-wow-delay="0.01s" id="contact">
         <div class="container py-5 px-lg-5 text-white " style="font-family:'Poppins', sans-seriff;">
             <div class="row g-5">
                 <div class="col-md-8 col-lg-4">
@@ -537,10 +377,6 @@
                     <a class="btn btn-outline-light btn-social" href="https://github.com/galaxyhm/usingcloud_final"><i
                             class="fab fa-github"></i></a>
                     <div class="">
-                        {% comment %}<input class="form-control border-0 rounded-pill w-100 ps-4 pe-5" type="text"
-                                            placeholder="Your Email" style="height: 48px;">
-                            <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-1 me-2"><i
-                                    class="fa fa-paper-plane text-primary fs-4"></i></button> {% endcomment %}
                     </div>
                 </div>
                 <div class="col-md-8 col-lg-3">
@@ -548,41 +384,45 @@
                     <a class="btn btn-link-SktKobart text-white"
                        href="https://github.com/SKT-AI/KoBART">SKT-AI/KoBART</a>
                     <a class="btn btn-link-HuggingGogamza text-white"
-                       href="https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data">gogamza/KoBART-base-v2</a>
+                       href="https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data">gogamza/KoBART</a>
                     <a class="btn btn-link-AihubDocsummarizationText text-white"
                        href="https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=97">AI
                         Hub 문서요약 텍스트</a>
                     <a class="btn btn-link-FinetunedKobart text-white"
                        href="https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data">fine-tuned KoBART</a>
-                    {% comment %} <a class="btn btn-link" href="">Support</a> {% endcomment %}
+                    <a class="btn btn-link-FinetunedKobart text-white"
+                       href="https://huggingface.co/daekeun-ml/koelectra-small-v3-nsmc">daekeun-ml/koelectra</a>
+                    <a class="btn btn-link-FinetunedKobart text-white"
+                       href="https://github.com/monologg/KoELECTRA">monologg/KoELECTRA</a>
                 </div>
                 <div class="col-md-8 col-lg-4">
-                    <p class="section-title text-white h4 mb-4">Address<span></span></p>
-                    <a class="btn btn-link-Hyeonmin-github text-white"
-                       href="https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data">gogamza/KoBART-base-v2</a>
-                    <p><i class="fa fa-duotone fa-poo me-3"></i>123 Street, New York, USA</p>
-                    <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                    <p><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fa fa-solid fa-poo"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                    <p class="section-title text-white h4 mb-4">Contact<span></span></p>
+                    <div>{% comment %} 현민 git 주소 {% endcomment %}
+                        <a class="btn btn-link-hm text-white"
+                            href="https://github.com/galaxyhm">
+                        <i class="fa fa-solid fa-rocket me-3"></i>github/galaxyhm</a>
+                    </div>
+                    <div>{% comment %} 도원 git 주소 {% endcomment %}
+                        <a class="btn btn-link-dw text-white"
+                            href="https://github.com/CatSaveTheWorld">
+                        <i class="fa fa-solid fa-dog me-3"></i>github/CatSaveTheWorld</a>
+                    </div>
+                    <div>{% comment %} 화정 git 주소 {% endcomment %}
+                        <a class="btn btn-link-hj text-white"
+                            href="https://github.com/hwajlee">
+                        <i class="fa fa-solid fa-cat me-3"></i>github/hwajlee</a>
+                    </div>
+                    <div>{% comment %} 지원 git 주소 {% endcomment %}
+                        <a class="btn btn-link-jw text-white"
+                            href="https://github.com/easyone93">
+                        <i class="fa fa-solid fa-server me-3"></i>github/easyone93</a>
+                    </div>
+                    <div>{% comment %} 영재 git 주소 {% endcomment %}
+                        <a class="btn btn-link-yj text-white"
+                            href="https://github.com/derella-00">
+                        <i class="fab fa-brands fa-apple me-3"></i>github/derella-00</a>
                     </div>
                 </div>
-                {% comment %}
-                    <div class="col-md-8 col-lg-3">
-                        <p class="section-title text-white h5 mb-4">Address<span></span></p>
-                        <p><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                        <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                        <p><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                        <div class="d-flex pt-2">
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div> {% endcomment %}
             </div>
         </div>
         <div class="container px-lg-5">
@@ -597,16 +437,13 @@
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">
                             <a href="">Main</a>
-                            {% comment %} <a href="">Cookies</a>
-                                <a href="">Help</a>
-                                <a href="">FQAs</a> {% endcomment %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Footer End -->
+    <!-- Contact End -->
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

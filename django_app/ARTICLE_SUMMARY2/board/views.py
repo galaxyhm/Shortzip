@@ -169,15 +169,16 @@ def news_comments_request_ajax(request):
     
     #  DB에 저장및 조회 할 수 있는 코드 보류
     # for comment in crawl_comment_list:
-    #     comments_object.username = comment['userName']
-    #     comments_object.contents = comment['contents']
-    #     comments_object.sympathyCount = comment['sympathyCount']
-    #     comments_object.antipathyCount = comment['antipathyCount']
-    #     comments_object.save()
+        # comments_object.username = comment['userName']
+        # comments_object.contents = comment['contents']
+        # comments_object.sympathyCount = comment['sympathyCount']
+        # comments_object.antipathyCount = comment['antipathyCount']
+        # comments_object.save()
 
 
     r = requests.post('http://localhost:8908/emotion/text/', data=json.dumps({'comments': crawl_comment_list}))
     json_data = r.json()
+
 
 
     # 프론트 엔드 테스트 할 수 있는 코드
@@ -210,6 +211,11 @@ def text_summarizae_request_ajax(request):
     }
     # if data['url'] :
     return JsonResponse(r.json())
+
+
+def history_request_ajax(request):
+    return render(request, 'board/history.html')
+
      
     
 def ajax_test(request) :
