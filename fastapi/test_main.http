@@ -36,3 +36,12 @@ Content-Type: application/json
   "url" : "https://n.news.naver.com/article/658/0000039535?type=main"
 
 }
+
+###
+POST http://127.0.0.1:8000/board/comments/
+Content-Type: application/json
+
+{
+  "url" : "https://n.news.naver.com/article/658/0000039535?type=main"
+
+}

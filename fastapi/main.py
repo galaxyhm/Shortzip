@@ -1,8 +1,8 @@
+
 from fastapi import FastAPI
-from pydantic import BaseModel
 from transformers import pipeline
 import uvicorn
-
+from model import UrlItem, TextItem, CommentList
 app = FastAPI()
 
 def textProcessing( text: str) -> str:
@@ -20,14 +20,6 @@ def textProcessing( text: str) -> str:
 
     return text.strip()
 
-class UrlItem(BaseModel):
-    url: str
-
-
-class TextItem(BaseModel):
-    text: str
-
-
 # fast api 시작후 모델 로드및 초기화
 class SummarizeModel:
     summarizer = None
@@ -36,8 +28,6 @@ class SummarizeModel:
         self.summarizer = pipeline("summarization", model="galaxyhm/kobartv2-summarizer-using_data",
                                    tokenizer='galaxyhm/kobartv2-summarizer-using_data')
 
-
-
 class BinaryTextClassificationModel:
     classifier = None 
 
@@ -45,9 +35,7 @@ class BinaryTextClassificationModel:
         self.classifier = pipeline( model='daekeun-ml/koelectra-small-v3-nsmc', tokenizer='daekeun-ml/koelectra-small-v3-nsmc')
 
 
-
-
-
+binary_model = BinaryTextClassificationModel()
 summarize_model = SummarizeModel()
 
 
@@ -70,22 +58,32 @@ summarize_model = SummarizeModel()
 #     return {'message': text}
 
 
-# 입력 글자수 체크 밑 로직
-def check_and_summarize(input_text, model_pipeline, max_length) :
-    text_length =  len(input_text)
+# 입력 글자수 체크 밑 로직 미완성
+def check_and_summarize(input_text, model_pipeline, max_length):
+    text_length = len(input_text)
     text_start_pointer = 0
     text_end_pointer = 0
     return_text = []
-    while True :
-        if max_length < text_length - text_start_pointer: 
-            pass
-        else :
-            return_text.append(model_pipeline.summarizer(input_text[text_start_pointer:]))
+    while True:
+        if max_length < text_length - text_start_pointer:
+            if max_length > text_length - text_end_pointer:
+                text_end_pointer = text_length
+            else:
+                text_end_pointer = text_start_pointer + max_length
+            min_text = model_pipeline(input_text[text_start_pointer:text_end_pointer])
+            return_text.append(min_text)
+            print(min_text)
+            # return_text.append(model_pipeline.summarizer(input_text[text_start_pointer:text_start_pointer+1999]))
+            text_start_pointer = text_start_pointer+max_length-5
+        else:
+            # return_text.append(model_pipeline(input_text[text_start_pointer:]))
+            min_text = model_pipeline(input_text[text_start_pointer:])
+            return_text.append(min_text)
+            print(min_text)
+            # return_text.append(model_pipeline.summarizer(input_text[text_start_pointer:]))
             return return_text
 
 
-        
-    
 @app.post("/summarize/text")
 async def summarize_text(text: TextItem):
     after_preproces = textProcessing(text.text)
@@ -93,7 +91,24 @@ async def summarize_text(text: TextItem):
     return {'message': textmodel}
 
 
+@app.post('/emotion/text')
+async def emotion_text(received_comment: CommentList):
+    only_comment_list = []
+    received_json = received_comment.dict()
+    print(received_json['comments'][1])
+    for i in received_json['comments']:
+        only_comment_list.append(i['contents'])
+    classifier_values = binary_model.classifier(only_comment_list)
+    for i in range(len(received_json['comments'])):
+        received_json['comments'][i]['emotion'] = classifier_values[i]['label']
+        received_json['comments'][i]['emotion_value'] = classifier_values[i]['score']
+
+    return received_json
+
+
 def main():
-    pass
+    uvicorn.run(app, host='0.0.0.0', port=8908)
+
+
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=8908  )
+    main()
