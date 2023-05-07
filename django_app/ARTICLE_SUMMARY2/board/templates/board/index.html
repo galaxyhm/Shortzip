@@ -14,10 +14,10 @@
 
             $(document).on("click", "button[name='url_button']", function () {
                 // 기존 댓글 삭제 
-                $("#commments-container").empty();
+                $("#comments-container").empty();
                 //url_button 비활성화
                 $(this).prop('disabled', true);
-                
+
                 // json 형식으로 데이터 set
                 var params = JSON.stringify({
                     url: $('input[name="url_input"]').val()
