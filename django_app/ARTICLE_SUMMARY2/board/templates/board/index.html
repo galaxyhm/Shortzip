@@ -166,7 +166,6 @@
                 <div class="navbar-nav mx-auto">
                     <a href="#home" class="nav-item nav-link active">Home</a>
                     <a href="#summary" class="nav-item nav-link">Summary</a>
-                    {% comment %} <a href="#history" class="nav-item nav-link">History</a> {% endcomment %}
                     <a href="{% url 'board:history_request_ajax' %}" class="nav-item nav-link">History</a>
                     <a href="#contact" class="nav-item nav-link">Contact</a>
                 </div>
@@ -364,20 +363,33 @@
                        href="https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data">fine-tuned KoBART</a>
                 </div>
                 <div class="col-md-8 col-lg-4">
-                    <p class="section-title text-white h4 mb-4">Address<span></span></p>
-                    <a class="btn btn-link-Hyeonmin-github text-white"
-                       href="https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data">gogamza/KoBART-base-v2</a>
-                    <p><i class="fa fa-duotone fa-poo me-3"></i>123 Street, New York, USA</p>
-                    <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                    <p><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fa fa-solid fa-poo"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                    <p class="section-title text-white h4 mb-4">Contact<span></span></p>
+                    <div>{% comment %} 현민 git 주소 {% endcomment %}
+                        <a class="btn btn-link-hm text-white"
+                            href="https://github.com/galaxyhm">
+                        <i class="fa fa-solid fa-rocket me-3"></i>github/galaxyhm</a>
+                    </div>
+                    <div>{% comment %} 도원 git 주소 {% endcomment %}
+                        <a class="btn btn-link-dw text-white"
+                            href="https://github.com/CatSaveTheWorld">
+                        <i class="fa fa-solid fa-dog me-3"></i>github/CatSaveTheWorld</a>
+                    </div>
+                    <div>{% comment %} 화정 git 주소 {% endcomment %}
+                        <a class="btn btn-link-hj text-white"
+                            href="https://github.com/hwajlee">
+                        <i class="fa fa-solid fa-cat me-3"></i>github/hwajlee</a>
+                    </div>
+                    <div>{% comment %} 지원 git 주소 {% endcomment %}
+                        <a class="btn btn-link-jw text-white"
+                            href="https://github.com/easyone93">
+                        <i class="fa fa-solid fa-server me-3"></i>github/easyone93</a>
+                    </div>
+                    <div>{% comment %} 영재 git 주소 {% endcomment %}
+                        <a class="btn btn-link-yj text-white"
+                            href="https://github.com/derella-00">
+                        <i class="fab fa-brands fa-apple me-3"></i>github/derella-00</a>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="container px-lg-5">
