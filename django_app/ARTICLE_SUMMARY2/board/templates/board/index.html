@@ -16,8 +16,8 @@
                 // 기존 댓글 삭제 
                 $("#comments-container").empty();
                 // 기존 긍, 부정 비율 삭제
-                $('input[name="positive_ratio"]').empty();
-                $('input[name="negative_ratio"]').empty();
+                $('input[name="positive_ratio"]').val('');
+                $('input[name="negative_ratio"]').val('');
                 //url_button 비활성화
                 $(this).prop('disabled', true);
 
@@ -61,23 +61,24 @@
 
                             var comments = data.comments; // 받아온 댓글 데이터
                             var container = $('#comments-container'); // 댓글 컨테이너 요소
-                            for (var i = 0; i < 1; i++) {
-                                if (comments < 5) {
-                                    alert("There are not enough comments.")
-                                }else {
-                                    for(var j = 0; j < 5; j++) {
-                                        var comment = comments[j];
-                                        var userName = comment.userName;
-                                        var contents = comment.contents;
-                                        // 댓글 요소 생성 
-                                        var commentElement = $('<div class="comment; form-control" style="background-color:transparent;border:none"><p class="userName"></p><p class="contents"></p></div>');
-                                        commentElement.find('.userName').text(userName);
-                                        commentElement.find('.contents').text(contents);
-                                        // 댓글 컨테이너에 삽입
-                                        container.append(commentElement);
-                                    }
+                            console.log(comments.length);
+                            console.log("안녕하세여.");
+                            if (comments.length < 5) { 
+                                alert("There are not enough comments.")
+                            }else {
+                                for(var i = 0; i < 5; i++) {
+                                    var comment = comments[i];
+                                    var userName = comment.userName;
+                                    var contents = comment.contents;
+                                    // 댓글 요소 생성 
+                                    var commentElement = $('<div class="comment; form-control" style="background-color:transparent;border:none"><p class="userName"></p><p class="contents"></p></div>');
+                                    commentElement.find('.userName').text(userName);
+                                    commentElement.find('.contents').text(contents);
+                                    // 댓글 컨테이너에 삽입
+                                    container.append(commentElement);
                                 }
                             }
+                            
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
                             // alert("통신 실패.")
@@ -193,7 +194,7 @@
                         <h1 class="text-white mb-4 animated slideInDown"
                             style="text-align:center;font-family: 'Poppins', sans-serif;">URL to summarize</h1>
                         <p class="text-white pb-3 animated slideInDown"
-                           style="text-align:center;font-family: 'Poppins', sans-serif;">Enter a NAVER news article URL to generate a summary of the article.</p>
+                           style="text-align:center;font-family: 'Poppins', sans-serif;">Enter a NAVER news URL to generate a summary of the article.</p>
                         <div class="position-relative w-100 mt-3">
                             <input name="url_input" class="form-control border-0 rounded-pill w-100 ps-4 pe-5"
                                    type="text" placeholder="URL" style="height: 58px;">
