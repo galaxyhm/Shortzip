@@ -1,0 +1,417 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //url_input 값 변경 시 이벤트 리스너 추가 
+            $('input[name="url_input"]').on("input", function() {
+                // url_button 활성화
+                $('button[name="url_button"]').prop('disabled', false);
+            });
+
+            $(document).on("click", "button[name='url_button']", function () {
+                // 다중 클릭 방지 
+                alert("Summarizing...");
+                // 기존 댓글 삭제 
+                $("#comments-container").empty();
+                // 기존 긍, 부정 비율 삭제
+                $('input[name="positive_ratio"]').val('');
+                $('input[name="negative_ratio"]').val('');
+                //url_button 비활성화
+                $(this).prop('disabled', true);
+
+                // json 형식으로 데이터 set
+                var params = JSON.stringify({
+                    url: $('input[name="url_input"]').val()
+                })
+
+                // ajax 통신
+                $.ajax({
+                    type: "POST",            // HTTP method type(GET, POST) 형식이다.
+                    url: "/board/summarize/",      // 컨트롤러에서 대기중인 URL 주소이다.
+                    data: params,
+                    contentType: 'application/json; charset=UTF-8',
+                    dataType: 'json',            // Json 형식의 데이터이다.
+                    success: function (data) { // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+                        console.log(data);
+                        $('input[name="subject"]').val(data.title);
+                        $('input[name="newspaper"]').val(data.newspaper);
+                        $('input[name="category"]').val(data.category);
+                        $('textarea[name="result_summarization"]').val(data.summarize);
+                        $('input[name="date"]').val(data.date)
+                        $('textarea[name="result_summarization"]').focus();
+
+
+                    $.ajax({
+                        type: "POST",            // HTTP method type(GET, POST) 형식이다.
+                        url: "/board/comments/",      // 컨트롤러에서 대기중인 URL 주소이다.
+                        data: params,
+                        contentType: 'application/json; charset=UTF-8',
+                        dataType: 'json',            // Json 형식의 데이터이다.
+                        success: function (data) { // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+                            {# 테스트 코드 감정 분석 결과 출력#}
+                            console.log(data.whole_emotion_positive_ratio);
+                            console.log(data.whole_emotion_negative_ratio);
+
+                            var positive_ratio = ((data.whole_emotion_positive_ratio) * 100).toFixed(2) + "%";
+                            var negative_ratio = ((data.whole_emotion_negative_ratio) * 100).toFixed(2) + "%";
+                            $('input[name="positive_ratio"]').val(positive_ratio);
+                            $('input[name="negative_ratio"]').val(negative_ratio);
+
+                            var comments = data.comments; // 받아온 댓글 데이터
+                            var container = $('#comments-container'); // 댓글 컨테이너 요소
+                            if (comments.length < 5) { 
+                                alert("There are not enough comments.")
+                                $('input[name="positive_ratio"]').val('');
+                                $('input[name="negative_ratio"]').val('');
+                            }else {
+                                for(var i = 0; i < 5; i++) {
+                                    var comment = comments[i];
+                                    var userName = comment.userName;
+                                    var contents = comment.contents;
+                                    // 댓글 요소 생성 
+                                    var commentElement = $('<div class="comment; form-control" style="background-color:transparent;border:none"><p class="userName"></p><p class="contents"></p></div>');
+                                    commentElement.find('.userName').text(userName);
+                                    commentElement.find('.contents').text(contents);
+                                    // 댓글 컨테이너에 삽입
+                                    container.append(commentElement);
+                                }
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                            // alert("통신 실패.")
+                        },
+                    });
+                    },
+
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                        // alert("통신 실패.")
+                    },
+                });
+            });
+        });
+    
+
+    </script>
+
+
+    <meta charset="utf-8">
+    <title>ShortZip - Summarize your news articles!</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+<div class="container-xxl bg-white p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-xxl position-relative p-0" data-wow-delay="0.01s" id="home">
+        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+            <a href="" class="navbar-brand p-0">
+                <h1 class="m-0" style="font-family: 'Poppins', sans-serif;">ShortZip</h1>
+            </a>
+            <button class="navbar-toggler rounded-pill" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav mx-auto">
+                    <a href="#home" class="nav-item nav-link active">Home</a>
+                    <a href="#summary" class="nav-item nav-link">Summary</a>
+                    <a href="{% url 'board:history_request_ajax' %}" class="nav-item nav-link">History</a>
+                    <a href="#contact" class="nav-item nav-link">Contact</a>
+                </div>
+                {% if request.user.is_authenticated == False %}
+                    <a href="{% url 'accounts:login' %}"
+                       class="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block"
+                       style="font-family: 'Poppins', sans-serif;">LOG IN</a>
+                    <a href="{% url 'accounts:signup' %}"
+                       class="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block"
+                       style="font-family: 'Poppins', sans-serif;">SIGN UP</a>
+                {% else %}
+                    <a href="{% url 'accounts:logout' %}"
+                       class="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block"
+                       style="font-family: 'Poppins', sans-serif;">LOG OUT</a>
+                {% endif %}
+            </div>
+        </nav>
+        <div class="container-xxl bg-primary hero-header" style="height: 750px">
+            <div class="container">
+                <div class="row g-5 align-items-center" style="justify-content: center;height:200px">
+                    <div class="col-lg-6 text-center text-lg-start" style="color:#FFFFFF; width:70%">
+                        <h1 class="text-white mb-4 animated slideInDown"
+                            style="text-align:center;font-family: 'Poppins', sans-serif;">URL to summarize</h1>
+                        <p class="text-white pb-3 animated slideInDown"
+                           style="text-align:center;font-family: 'Poppins', sans-serif;">Enter a NAVER news URL to generate a summary of the article.</p>
+                        <div class="position-relative w-100 mt-3">
+                            <input name="url_input" class="form-control border-0 rounded-pill w-100 ps-4 pe-5"
+                                   type="text" placeholder="URL" style="height: 58px;">
+
+                            <button type="button" name="url_button" id='url_button' onclick="insert();"
+                                    class="btn btn-primary-gradient rounded-pill py-2 px-3 shadow-none position-absolute top-0 end-0 m-2"
+                                    style="font-family: 'Poppins', sans-serif;"
+                            >Summary
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Navbar & Hero End -->
+
+
+<!-- summary Start -->
+{% comment %} 결과창 {% endcomment %}
+<div class="container-xxl py-6" data-wow-delay="0.01s" id="summary">
+    <div class="container">
+        <div class="row g-5" style="margin-top:150px">
+            <div class="col-lg-6 mx-auto wow fadeInUp" data-wow-delay="0.5s" style="width:70%">
+                <h2 class="mb-4 text-primary-gradient flex-shrink-0" style="font-family: 'Poppins', sans-serif;">Sum Up</h2>
+                <form style="font-family: 'Poppins', sans-serif;">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="subject" name="subject"
+                                       placeholder="Subject" style="background-color:transparent;border:none" readonly>
+                                <label for="subject">Title</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name" name="newspaper" placeholder="Press"
+                                       style="background-color:transparent;border:none" readonly>
+                                <label for="newspaper">Newspaper</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="email" class="form-control" id="email" name="category"
+                                       placeholder="Article category" style="background-color:transparent;border:none"
+                                       readonly>
+                                <label for="category">Category</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="date" name="date" placeholder="Article date"
+                                       style="background-color:transparent;border:none" readonly>
+                                <label for="date">Date</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <textarea name="result_summarization" class="form-control"
+                                placeholder="Leave a message here" id="message"
+                                style="height: 150px;background-color:transparent;border:none" readonly>
+                                </textarea>
+                                <label for="result_summarization">Content</label>
+                            </div>
+                        </div>
+                        <div class="col-12" style="height: 100px">
+                            <div class="overflow-hidden">
+                                <div data-zanim-xs="{&quot;delay&quot;:0.2}"
+                                     style="transform: translate(0px, 0px); opacity: 1;">
+                                    <a class="d-flex align-items-center" style="font-family: 'Poppins', sans-serif;"
+                                       href="{% url 'board:history_request_ajax' %}">history
+                                        <div class="overflow-hidden ms-2">
+                                            <span class="d-inline-block" style="transform: translate(0px, 0px); opacity: 1;">⟶
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overview End -->
+
+    <!-- Comments Start -->
+    <div class="container-xxl py-6" id="comments">
+        <div class="container">
+            <div class="row g-5" style="margin-bottom:200px">
+                <div class="col-lg-6 mx-auto wow fadeInUp" data-wow-delay="0.5s" style="width:70%">
+                    <h2 class="mb-4 text-primary-gradient flex-shrink-0" style="font-family: 'Poppins', sans-serif;">Comments</h2>
+                    <p class="mb-4">After collecting the number of comments up to 100, it displays a percentage based on whether people's reactions to the issue are positive or negative. </p> 
+                    <p class="mb-4"> And below, it shows the top 5 comments with the most empathy.</p>
+                    <div class="row g-4 mb-4">
+                        <div class="col-sm-6 wow fadeIn" data-wow-delay="0.5s">
+                            <div class="d-flex">
+                                <i class="fa fa-smile fa-2x text-primary-gradient flex-shrink-0"></i>
+                                <div class="ms-3">
+
+                                    <input type="text" id="positive_ratio" name="positive_ratio" 
+                                    style="background-color:transparent;border:none" disabled>
+
+                                    <p class="text-primary-gradient mb-0">Positive</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 wow fadeIn" data-wow-delay="0.7s">
+                            <div class="d-flex">
+                                <i class="fa fa-frown fa-2x text-secondary-gradient flex-shrink-0"></i>
+                                <div class="ms-3">
+                                    <input type="text" id="negative_ratio" name="negative_ratio" 
+                                    style="background-color:transparent;border:none" disabled>
+                                    <p class="text-secondary-gradient mb-0">Negative</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form style="font-family: 'Poppins', sans-serif;background-color:transparent;border:none">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <div id="comments-container"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comments End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid bg-dark text-body footer wow fadeIn" data-wow-delay="0.01s" id="contact">
+        <div class="container py-5 px-lg-5 text-white " style="font-family:'Poppins', sans-seriff;">
+            <div class="row g-5">
+                <div class="col-md-8 col-lg-4">
+                    <p class="section-title text-white h4 mb-4">ShortZip<span></span></p>
+                    <p style="font-family:'Poppins', sans-serif">Want to summarize a specific news story of interest?
+                        Just give me the URL and I’ll summarize it for you! You can refer to the following Github for
+                        more information.
+                    </p>
+                    <a class="btn btn-outline-light btn-social" href="https://github.com/galaxyhm/usingcloud_final"><i
+                            class="fab fa-github"></i></a>
+                    <div class="">
+                    </div>
+                </div>
+                <div class="col-md-8 col-lg-3">
+                    <p class="section-title text-white h4 mb-4">Reference<span></span></p>
+                    <a class="btn btn-link-SktKobart text-white"
+                       href="https://github.com/SKT-AI/KoBART">SKT-AI/KoBART</a>
+                    <a class="btn btn-link-HuggingGogamza text-white"
+                       href="https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data">gogamza/KoBART</a>
+                    <a class="btn btn-link-AihubDocsummarizationText text-white"
+                       href="https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=97">AI
+                        Hub 문서요약 텍스트</a>
+                    <a class="btn btn-link-FinetunedKobart text-white"
+                       href="https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data">fine-tuned KoBART</a>
+                    <a class="btn btn-link-FinetunedKobart text-white"
+                       href="https://huggingface.co/daekeun-ml/koelectra-small-v3-nsmc">daekeun-ml/koelectra</a>
+                    <a class="btn btn-link-FinetunedKobart text-white"
+                       href="https://github.com/monologg/KoELECTRA">monologg/KoELECTRA</a>
+                </div>
+                <div class="col-md-8 col-lg-4">
+                    <p class="section-title text-white h4 mb-4">Contact<span></span></p>
+                    <div>{% comment %} 현민 git 주소 {% endcomment %}
+                        <a class="btn btn-link-hm text-white"
+                            href="https://github.com/galaxyhm">
+                        <i class="fa fa-solid fa-rocket me-3"></i>github/galaxyhm</a>
+                    </div>
+                    <div>{% comment %} 도원 git 주소 {% endcomment %}
+                        <a class="btn btn-link-dw text-white"
+                            href="https://github.com/CatsSaveTheWorld">
+                        <i class="fa fa-solid fa-dog me-3"></i>github/CatsSaveTheWorld</a>
+                    </div>
+                    <div>{% comment %} 화정 git 주소 {% endcomment %}
+                        <a class="btn btn-link-hj text-white"
+                            href="https://github.com/hwajlee">
+                        <i class="fa fa-solid fa-cat me-3"></i>github/hwajlee</a>
+                    </div>
+                    <div>{% comment %} 지원 git 주소 {% endcomment %}
+                        <a class="btn btn-link-jw text-white"
+                            href="https://github.com/easyone93">
+                        <i class="fa fa-solid fa-server me-3"></i>github/easyone93</a>
+                    </div>
+                    <div>{% comment %} 영재 git 주소 {% endcomment %}
+                        <a class="btn btn-link-yj text-white"
+                            href="https://github.com/derella-00">
+                        <i class="fab fa-brands fa-apple me-3"></i>github/derella-00</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container px-lg-5">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a class="border-bottom" href="#">ShortZip</a>, All Right Reserved.
+                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                        <br>Distributed By: <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="footer-menu">
+                            <a href="">Main</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'lib/wow/wow.min.js' %}"></script>
+<script src="{% static 'lib/easing/easing.min.js' %}"></script>
+<script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+<script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
+<script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+<!-- Template Javascript -->
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>
