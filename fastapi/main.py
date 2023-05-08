@@ -5,6 +5,8 @@ import uvicorn
 from model import UrlItem, TextItem, CommentList
 app = FastAPI()
 
+
+#텍스트 전처리
 def textProcessing( text: str) -> str:
     text = text.replace(u'\n', u' ')
     text = text.replace(u'\'', u' ')
@@ -59,29 +61,29 @@ summarize_model = SummarizeModel()
 
 
 # 입력 글자수 체크 밑 로직 미완성
-def check_and_summarize(input_text, model_pipeline, max_length):
-    text_length = len(input_text)
-    text_start_pointer = 0
-    text_end_pointer = 0
-    return_text = []
-    while True:
-        if max_length < text_length - text_start_pointer:
-            if max_length > text_length - text_end_pointer:
-                text_end_pointer = text_length
-            else:
-                text_end_pointer = text_start_pointer + max_length
-            min_text = model_pipeline(input_text[text_start_pointer:text_end_pointer])
-            return_text.append(min_text)
-            print(min_text)
-            # return_text.append(model_pipeline.summarizer(input_text[text_start_pointer:text_start_pointer+1999]))
-            text_start_pointer = text_start_pointer+max_length-5
-        else:
-            # return_text.append(model_pipeline(input_text[text_start_pointer:]))
-            min_text = model_pipeline(input_text[text_start_pointer:])
-            return_text.append(min_text)
-            print(min_text)
-            # return_text.append(model_pipeline.summarizer(input_text[text_start_pointer:]))
-            return return_text
+# def check_and_summarize(input_text, model_pipeline, max_length):
+#     text_length = len(input_text)
+#     text_start_pointer = 0
+#     text_end_pointer = 0
+#     return_text = []
+#     while True:
+#         if max_length < text_length - text_start_pointer:
+#             if max_length > text_length - text_end_pointer:
+#                 text_end_pointer = text_length
+#             else:
+#                 text_end_pointer = text_start_pointer + max_length
+#             min_text = model_pipeline(input_text[text_start_pointer:text_end_pointer])
+#             return_text.append(min_text)
+#             print(min_text)
+#             # return_text.append(model_pipeline.summarizer(input_text[text_start_pointer:text_start_pointer+1999]))
+#             text_start_pointer = text_start_pointer+max_length-5
+#         else:
+#             # return_text.append(model_pipeline(input_text[text_start_pointer:]))
+#             min_text = model_pipeline(input_text[text_start_pointer:])
+#             return_text.append(min_text)
+#             print(min_text)
+#             # return_text.append(model_pipeline.summarizer(input_text[text_start_pointer:]))
+#             return return_text
 
 
 @app.post("/summarize/text")

@@ -12,8 +12,8 @@ import requests
 import re
 from . import models
 from django.db.models import Q
-import random
-import pandas as pd
+from django.conf import settings
+
 # Create your views here.
 
 
@@ -38,9 +38,6 @@ def index(request):
 #         return render(request, 'board/join_membership.html', context)
 
 
-# def summarize(request):
-#     return render()
-
 @require_http_methods(['POST'])
 def news_summarizae_request_ajax(request):
     # print(request.body)
@@ -53,9 +50,9 @@ def news_summarizae_request_ajax(request):
     url = regex.match(url)
     print(url)
     
-    if not url :
+    if not url:
         print('error 올바르지 않는 url')
-        # return 해서 어떻게 처리하셈 
+        return JsonResponse({'status':'false', 'message': '잘못된 url'}, status=500)
     url = url[0]
 
     # DB에서 해당 url에 맞는 데이터 필드 가져옴.
@@ -70,7 +67,7 @@ def news_summarizae_request_ajax(request):
     # 입력받은 URL을 가진 기사가 데이터베이스에 존재하는지 확인.
     if models.NewsArticleInfo.objects.filter(url=url) :
         # 해당 URL을 가진 기사가 데이터베이스에 존재하면, 수정일자를 비교하여 최신 버전인지 확인.
-        if models.NewsArticleInfo.objects.filter(Q(url=url) & Q(modify_date__isnull=True)) or  models.NewsArticleInfo.objects.filter(Q(url=url) & Q(modify_date = crawl_data_dict.get('modify_date'))):
+        if (models.NewsArticleInfo.objects.filter(Q(url=url) & Q(modify_date__isnull=True)) and crawl_data_dict.get('modify_date') != -1 ) or models.NewsArticleInfo.objects.filter(Q(url=url) & Q(modify_date = crawl_data_dict.get('modify_date'))):
             news_article = models.NewsArticleInfo.objects.get(url=url)
 
             return JsonResponse(
@@ -83,7 +80,7 @@ def news_summarizae_request_ajax(request):
                 }
             )
         # 최신 버전이 아닐 경우, 기사의 내용을 업데이트하고 요약을 다시 생성.
-        else :
+        else:
             news_article = models.NewsArticleInfo.objects.get(url=url)
             news_article.detail = crawl_data_dict['text']
             news_article.modify_date = crawl_data_dict['modify_date']
@@ -96,7 +93,7 @@ def news_summarizae_request_ajax(request):
 
             #정상적인 응답을 못 받았을때
             if r.status_code != 200 :
-                pass
+                return JsonResponse({'status': 'false', 'message': 'fastapi가 응답 없음'}, status=500)
             json_data = r.json()['message'][0].get('summary_text').strip()
             news_article.summary = json_data
             news_article.update()
@@ -168,16 +165,7 @@ def news_comments_request_ajax(request):
     # comments가 0 인지 확인
     if crawl_comment_list == [] :
         return JsonResponse({'comments': []})
-    # crawl_comment_dict = dict()
-    # crawl_comment_dict['comments_data'] = crawl_comment_list
-    
-    #  DB에 저장및 조회 할 수 있는 코드 보류
-    # for comment in crawl_comment_list:
-        # comments_object.username = comment['userName']
-        # comments_object.contents = comment['contents']
-        # comments_object.sympathyCount = comment['sympathyCount']
-        # comments_object.antipathyCount = comment['antipathyCount']
-        # comments_object.save()
+
 
 
     r = requests.post('http://13.208.62.74:8908/emotion/text/', data=json.dumps({'comments': crawl_comment_list}))
@@ -195,41 +183,7 @@ def news_comments_request_ajax(request):
 
 
 
-@require_http_methods(['POST'])
-def text_summarizae_request_ajax(request):
-
-
-    cond = {
-        "url" : "https://n.news.naver.com/article/018/0005472525"
-
-    }
-    jsonData = json.dumps(cond)
-    r = requests.post('http://localhost:10000/crawl/naver/', data=jsonData)
-    json_data = r.json()
-
-    print(json_data)
-    print(r.status_code)
-    # print(r.json())
-    # data = json.loads(m.body)
-    context = {
-        'result' : 'error '
-    }
-    # if data['url'] :
-    return JsonResponse(r.json())
-
-
 def history_request_ajax(request):
     return render(request, 'board/history.html')
-
-     
-    
-def ajax_test(request) :
-        
-    context = {'test' :'test'}
-
-    return JsonResponse(context)
-
-
-
 
 

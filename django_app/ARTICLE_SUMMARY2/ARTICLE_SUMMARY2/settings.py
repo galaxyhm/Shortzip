@@ -77,8 +77,19 @@ WSGI_APPLICATION = 'ARTICLE_SUMMARY2.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
+FAST_API_HOST_ADDRESS = ''
+FAST_API_HOST_PORT = 80
+
+with open(BASE_DIR / 'fast_api.json') as fastapi:
+    fastapi_data_json = json.load(fastapi)
+    FAST_API_HOST_ADDRESS = fastapi_data_json['HOST']
+    FAST_API_HOST_PORT = fastapi_data_json['PORT']
+    fastapi.close()
+
 with open(BASE_DIR / 'db_connect.json') as db_connect:
     db_data = json.load(db_connect)
+    db_connect.close()
 
 DATABASES = {
     'default': {
