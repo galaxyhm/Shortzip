@@ -164,6 +164,10 @@ def news_comments_request_ajax(request):
 
     comments_object = models.NewsArticleComments()
     crawl_comment_list = NewsCrawler.get_news_comment(url=url)
+
+    # comments가 0 인지 확인
+    if crawl_comment_list == [] :
+        return JsonResponse({'comments': []})
     # crawl_comment_dict = dict()
     # crawl_comment_dict['comments_data'] = crawl_comment_list
     
