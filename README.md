@@ -19,12 +19,14 @@ Python 3.8.*
 [문서요약 텍스트](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=97)
 
 ## Example
+<img src="https://i.imgur.com/yeVgryO.png" width="600px" height="400px" title="Site_Title"/>
+<img src="https://i.imgur.com/JakqZvX.png" width="600px" height="400px" title="Site_Title"/>
 
 not yet
 
 ## Demo
 
-not yet
+[Hugging face](https://huggingface.co/galaxyhm/kobartv2-summarizer-using_data)
 
 ## License
 MIT
