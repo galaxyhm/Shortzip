@@ -213,9 +213,12 @@ class NewsCrawler:
 from pprint import pprint
 
 def main():
-    url = 'https://n.news.naver.com/article/007/0000007362?ntype=RANKING'
+    url = 'https://n.news.naver.com/mnews/article/001/0013926292?sid=103'
     k = NewsCrawler.get_news_comment(url)
-    pprint(k)
+    if k == [] :
+        print("k is None")
+    else :
+        pprint(k)
 
 
 if __name__ == '__main__':

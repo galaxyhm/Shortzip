@@ -128,7 +128,7 @@ def news_summarizae_request_ajax(request):
     request_body = json.dumps(request_body)
     print(len(crawl_data_dict['text']))
     request_summarize = requests.post('http://13.208.62.74:8908/summarize/text/', data=request_body)
-    if request_summarize.status_code != 200 :
+    if request_summarize.status_code != 200:
         pass
     json_data = request_summarize.json()['message'][0].get('summary_text').strip()
     news_article.summary = json_data
@@ -164,6 +164,10 @@ def news_comments_request_ajax(request):
 
     comments_object = models.NewsArticleComments()
     crawl_comment_list = NewsCrawler.get_news_comment(url=url)
+
+    # comments가 0 인지 확인
+    if crawl_comment_list == [] :
+        return JsonResponse({'comments': []})
     # crawl_comment_dict = dict()
     # crawl_comment_dict['comments_data'] = crawl_comment_list
     
