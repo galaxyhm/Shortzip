@@ -13,6 +13,8 @@
             });
 
             $(document).on("click", "button[name='url_button']", function () {
+                // 다중 클릭 방지 
+                alert("Summarizing...");
                 // 기존 댓글 삭제 
                 $("#comments-container").empty();
                 // 기존 긍, 부정 비율 삭제
@@ -61,10 +63,10 @@
 
                             var comments = data.comments; // 받아온 댓글 데이터
                             var container = $('#comments-container'); // 댓글 컨테이너 요소
-                            console.log(comments.length);
-                            console.log("안녕하세여.");
                             if (comments.length < 5) { 
                                 alert("There are not enough comments.")
+                                $('input[name="positive_ratio"]').val('');
+                                $('input[name="negative_ratio"]').val('');
                             }else {
                                 for(var i = 0; i < 5; i++) {
                                     var comment = comments[i];
@@ -78,7 +80,6 @@
                                     container.append(commentElement);
                                 }
                             }
-                            
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
                             // alert("통신 실패.")
@@ -92,23 +93,6 @@
                 });
             });
         });
-
-    // 다중 클릭 방지 
-    var doubleSubmitFlag = false;
-    function doubleSubmitCheck(){
-        if(doubleSubmitFlag){
-            return doubleSubmitFlag;
-        }else{
-            doubleSubmitFlag = true;
-            return false;
-        }
-    }
-    function insert(){
-        if(doubleSubmitCheck()) return;
- 
-        alert("Summarizing...");
-    }
-    //
     
 
     </script>
